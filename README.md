@@ -33,7 +33,7 @@
 
 > *Apni website ka screenshot yahan lagayein:*
 
-![App Screenshot](CM,png)
+![App Screenshot(CM,png)}
 
 ---
 
