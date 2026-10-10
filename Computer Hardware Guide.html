@@ -1,0 +1,1375 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Computer Hardware Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: fixed unit-sidebar on desktop, drawer on phones; one reading column; unit bands in deep green */
+:root{
+  --bg:#060a08; --bg2:#09110d; --panel:#0e1713; --panel2:#132119; --line:#1d3226; --line2:#2a4636;
+  --g900:#0b2e1f; --g700:#15573a; --g500:#2a9d62; --g300:#62c995;
+  --ink:#f3f7f4; --ink2:#b9c8bf; --ink3:#83988c;
+  --warn:#e5b94e; --bad:#ee7b6e;
+  --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --f-body:'Figtree','Segoe UI',system-ui,-apple-system,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16.5px;line-height:1.7;-webkit-text-size-adjust:100%;overflow-x:hidden}
+a{color:var(--g300)}
+:focus-visible{outline:2px solid var(--g300);outline-offset:2px;border-radius:4px}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.15;text-wrap:balance;margin:0}
+p{margin:0 0 1em}
+ul,ol{margin:0 0 1em;padding-left:1.25em}
+li{margin-bottom:.35em}
+li::marker{color:var(--g500)}
+code,.mono{font-family:var(--f-mono);font-size:.88em}
+code{background:var(--panel2);border:1px solid var(--line);padding:.08em .4em;border-radius:5px;color:var(--g300)}
+strong{color:#fff;font-weight:650}
+
+/* progress */
+#prog{position:fixed;top:0;left:0;height:3px;width:0;background:var(--g500);z-index:60}
+
+/* top bar (phone) */
+.top{position:fixed;inset:0 0 auto 0;height:56px;display:flex;align-items:center;gap:12px;padding:0 16px;background:rgba(6,10,8,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:50;padding-top:env(safe-area-inset-top,0px)}
+.top b{font-family:var(--f-display);font-size:1.05rem;letter-spacing:.2px}
+.burger{margin-left:auto;background:var(--g900);color:var(--ink);border:1px solid var(--g700);border-radius:10px;height:40px;padding:0 14px;font:600 .9rem var(--f-body);cursor:pointer}
+
+/* sidebar */
+.side{position:fixed;top:56px;bottom:0;left:0;width:min(86vw,320px);background:var(--bg2);border-right:1px solid var(--line);overflow-y:auto;padding:18px 16px 40px;transform:translateX(-102%);transition:transform .25s;z-index:55}
+.side.open{transform:none}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:52;display:none}
+.scrim.on{display:block}
+.brand{display:none}
+.nav-unit{font:700 .72rem var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--g300);margin:20px 0 6px}
+.side a.nl{display:block;padding:7px 10px;border-radius:8px;color:var(--ink2);text-decoration:none;font-size:.93rem;line-height:1.35;margin-bottom:2px;border-left:2px solid transparent}
+.side a.nl:hover{background:var(--panel)}
+.side a.nl.on{background:var(--g900);color:#fff;border-left-color:var(--g300)}
+
+main{padding:76px 16px 40px;max-width:860px;margin:0 auto}
+
+@media(min-width:1000px){
+  .top{display:none}
+  .side{top:0;transform:none;width:300px;padding-top:26px}
+  .brand{display:block;margin-bottom:6px}
+  .brand b{font:800 1.25rem var(--f-display);display:block}
+  .brand span{font-size:.8rem;color:var(--ink3)}
+  main{margin-left:300px;max-width:none;padding:48px 48px 60px}
+  main>*{max-width:800px}
+  html{scroll-padding-top:24px}
+}
+
+/* hero */
+.hero{position:relative;padding:34px 22px 28px;border:1px solid var(--line2);border-radius:20px;background:
+  radial-gradient(120% 90% at 100% 0%,var(--g900) 0%,transparent 60%),var(--panel);overflow:hidden;margin-bottom:28px}
+.hero svg.trace{position:absolute;right:-30px;top:-10px;width:260px;opacity:.5;pointer-events:none}
+.hero .tag{display:inline-block;font:700 .72rem var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--g300);border:1px solid var(--g700);padding:5px 10px;border-radius:99px;margin-bottom:16px}
+.hero h1{font-size:clamp(2.3rem,8vw,3.8rem);font-weight:800;letter-spacing:-.02em;margin-bottom:12px;position:relative}
+.hero h1 em{font-style:normal;color:var(--g300)}
+.hero p.lead{font-size:1.1rem;color:var(--ink2);max-width:46ch;position:relative}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:22px;position:relative}
+.stats div{background:rgba(6,10,8,.6);border:1px solid var(--line2);border-radius:12px;padding:12px 14px}
+.stats b{display:block;font:800 1.7rem var(--f-display);color:#fff}
+.stats span{font-size:.82rem;color:var(--ink3)}
+.credit{font-size:.85rem;color:var(--ink3);margin-top:18px;position:relative}
+
+/* how to use */
+.map{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:12px}
+.map a{display:block;text-decoration:none;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;transition:border-color .2s,transform .2s}
+.map a:hover{border-color:var(--g500);transform:translateY(-2px)}
+.map small{display:block;font:700 .7rem var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--g300);margin-bottom:4px}
+.map b{font:700 1.05rem var(--f-display);display:block;margin-bottom:4px}
+.map span{font-size:.88rem;color:var(--ink2);line-height:1.5;display:block}
+
+/* unit band */
+.unit{margin:64px 0 8px;padding:26px 22px;border-radius:18px;background:linear-gradient(135deg,var(--g700),var(--g900) 70%);border:1px solid var(--g500);position:relative;overflow:hidden}
+.unit .n{position:absolute;right:14px;top:-18px;font:800 7.5rem/1 var(--f-display);color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.18);pointer-events:none}
+.unit small{font:700 .75rem var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:#bff0d5}
+.unit h2{font-size:clamp(1.7rem,5.5vw,2.4rem);margin-top:4px;position:relative}
+.unit p{margin:8px 0 0;color:#d6efe1;max-width:52ch;position:relative}
+
+/* chapter */
+.chap{margin-top:44px}
+.chap>header{margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.chap>header small{font:700 .72rem var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--g300)}
+.chap>header h3{font-size:clamp(1.5rem,4.6vw,2rem);margin-top:4px}
+.chap h4{font-size:1.2rem;margin:34px 0 10px;color:#fff;display:flex;gap:10px;align-items:baseline}
+.chap h4::before{content:"";flex:none;width:10px;height:10px;border-radius:2px;background:var(--g500);transform:translateY(-1px)}
+.chap h5{font:700 .8rem var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:var(--g300);margin:22px 0 8px}
+
+/* cards & grids */
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:14px 0 18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;min-width:0}
+.card h5{margin:0 0 6px;color:#fff;font:700 1.02rem var(--f-display);letter-spacing:0;text-transform:none}
+.card p{font-size:.95rem;color:var(--ink2);margin:0 0 .6em}
+.card p:last-child{margin-bottom:0}
+.card .eg{font-size:.88rem}
+.pill{display:inline-block;font:600 .74rem var(--f-body);padding:2px 9px;border-radius:99px;background:var(--g900);border:1px solid var(--g700);color:#c9f0da;margin:0 4px 4px 0}
+.pill.w{background:#2d2410;border-color:#6b5420;color:#f2d98e}
+.pill.b{background:#2c1411;border-color:#6d2e27;color:#f6b4ab}
+
+/* callouts */
+.co{border-radius:12px;padding:14px 16px;margin:16px 0;border:1px solid var(--line2);background:var(--panel2);font-size:.97rem}
+.co>b:first-child{display:block;font:700 .72rem var(--f-body);letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px;color:var(--g300)}
+.co.eg{border-left:4px solid var(--g500)}
+.co.warn{border-color:#5d4a1b;background:#1b1608}
+.co.warn>b:first-child{color:var(--warn)}
+.co.note{background:var(--bg2)}
+.co p:last-child,.co ul:last-child{margin-bottom:0}
+
+/* tables */
+.tw{overflow-x:auto;margin:14px 0 20px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:.93rem;min-width:420px}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--g900);color:#d9f4e5;font:700 .75rem var(--f-body);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-size:.88rem}
+
+/* ordered steps */
+ol.steps{list-style:none;counter-reset:s;padding:0;margin:14px 0 18px}
+ol.steps>li{counter-increment:s;position:relative;padding:10px 12px 10px 54px;background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:8px;min-height:48px}
+ol.steps>li::before{content:counter(s);position:absolute;left:12px;top:10px;width:30px;height:30px;border-radius:50%;background:var(--g900);border:1px solid var(--g500);color:#c9f0da;font:700 .85rem var(--f-display);display:grid;place-items:center}
+
+/* terminal */
+.term{background:#030504;border:1px solid var(--line2);border-radius:12px;padding:14px 16px;font:400 .86rem/1.65 var(--f-mono);color:#cfe9da;overflow-x:auto;margin:14px 0 18px;white-space:pre}
+.term .p{color:var(--g300)}
+.term .d{color:var(--ink3)}
+
+/* details */
+details{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:8px}
+summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";flex:none;color:var(--g300);font:600 1.3rem var(--f-mono)}
+details[open]>summary::after{content:"\2212"}
+details[open]>summary{border-bottom:1px solid var(--line)}
+details .in{padding:14px 16px 6px}
+
+/* summary box */
+.sum{background:linear-gradient(180deg,var(--g900),#08201a);border:1px solid var(--g700);border-radius:14px;padding:16px 18px 8px;margin:26px 0 12px}
+.sum>b{display:block;font:700 .75rem var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:#bff0d5;margin-bottom:8px}
+.sum li{color:#e3f5ea}
+.qs{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.qs details{margin:0}
+.qs li{font-size:.94rem;color:var(--ink2)}
+
+/* tools */
+.tool{background:var(--panel);border:1px solid var(--g700);border-radius:16px;padding:18px;margin:18px 0}
+.tool>b.t{display:block;font:700 .72rem var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--g300);margin-bottom:10px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-bottom:12px}
+.row label{display:flex;flex-direction:column;gap:5px;font-size:.82rem;color:var(--ink3);min-width:0;flex:1 1 130px}
+select,input[type=number],input[type=range]{font:500 1rem var(--f-body);color:var(--ink);background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:10px 12px;width:100%;min-width:0}
+input[type=range]{padding:0;height:36px;accent-color:#2a9d62;background:transparent;border:0}
+button.b{font:650 .92rem var(--f-body);color:#fff;background:var(--g700);border:1px solid var(--g500);border-radius:10px;padding:10px 16px;cursor:pointer}
+button.b:hover{background:var(--g500)}
+button.b.ghost{background:transparent;border-color:var(--line2);color:var(--ink2)}
+.out{border-radius:12px;padding:12px 14px;background:var(--bg);border:1px solid var(--line2);font-size:.96rem}
+.out.ok{border-color:var(--g500);color:#d8f6e5}
+.out.no{border-color:#7a3228;color:#ffd0ca;background:#1c0e0c}
+.big{font:800 2rem var(--f-display);color:#fff;font-variant-numeric:tabular-nums}
+
+/* bus pipe */
+.pipe{display:grid;grid-template-columns:repeat(32,1fr);gap:3px;margin:10px 0}
+.pipe i{height:14px;border-radius:3px;background:var(--line2)}
+.pipe i.on{background:var(--g500)}
+
+/* boot stepper */
+.boot{display:grid;gap:8px;margin:14px 0}
+.boot button{all:unset;cursor:pointer;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;box-sizing:border-box}
+.boot button:focus-visible{outline:2px solid var(--g300)}
+.boot button i{font:700 .9rem var(--f-display);font-style:normal;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--g700);color:var(--g300)}
+.boot button.on{border-color:var(--g500);background:var(--g900)}
+.boot button.on i{background:var(--g500);color:#04140c}
+.boot .why{display:none;grid-column:2;color:var(--ink2);font-size:.92rem;margin-top:4px}
+.boot button.on .why{display:block}
+.boot strong{display:block}
+
+/* serial vs parallel */
+.wires{display:grid;gap:14px;margin:12px 0}
+.wire{background:var(--bg);border:1px solid var(--line2);border-radius:12px;padding:12px}
+.wire>small{display:block;color:var(--ink3);font-size:.8rem;margin-bottom:8px}
+.lane{height:8px;border-radius:99px;background:var(--line);margin-bottom:6px;position:relative;overflow:hidden}
+.lane b{position:absolute;top:0;bottom:0;width:14px;border-radius:99px;background:var(--g300);left:-20px;animation:go 10s linear infinite;animation-delay:var(--d,0s)}
+@keyframes go{0%{left:-20px}16%,100%{left:100%}}
+@media(prefers-reduced-motion:reduce){.lane b{animation:none;left:8px}html{scroll-behavior:auto}}
+
+/* pins */
+.pins{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.pins span{font:600 .78rem var(--f-mono);padding:6px 9px;border-radius:8px;background:var(--panel2);border:1px solid var(--line2);color:var(--ink2)}
+.pins span.on{background:var(--g900);border-color:var(--g500);color:#fff}
+
+/* quiz */
+.qz{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:12px}
+.qz h5{font:700 1.02rem var(--f-display);color:#fff;margin-bottom:10px;text-transform:none;letter-spacing:0}
+.qz .opts{display:grid;gap:8px}
+.qz button{all:unset;cursor:pointer;box-sizing:border-box;padding:10px 14px;border:1px solid var(--line2);border-radius:10px;background:var(--bg2);color:var(--ink2);font-size:.95rem}
+.qz button:hover{border-color:var(--g500)}
+.qz button:focus-visible{outline:2px solid var(--g300)}
+.qz button.right{background:var(--g900);border-color:var(--g500);color:#fff}
+.qz button.wrong{background:#2c1411;border-color:#7a3228;color:#ffd0ca}
+.qz .fb{margin-top:10px;font-size:.9rem;color:var(--ink2);display:none}
+.qz.done .fb{display:block}
+.score{position:sticky;bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--g900);border:1px solid var(--g500);border-radius:14px;padding:12px 16px;margin-top:16px}
+
+footer{margin-top:70px;padding-top:22px;border-top:1px solid var(--line);color:var(--ink3);font-size:.88rem}
+.totop{position:fixed;right:16px;bottom:16px;width:44px;height:44px;border-radius:50%;background:var(--g700);border:1px solid var(--g500);color:#fff;font-size:1.2rem;cursor:pointer;display:none;z-index:40}
+.totop.on{display:block}
+@media(min-width:700px){.unit{padding:34px 34px}.hero{padding:44px 40px 36px}}
+</style>
+
+<div id="prog"></div>
+<header class="top"><b>Computer Hardware</b><button class="burger" id="burger" aria-expanded="false" aria-controls="side">Fehrist</button></header>
+<div class="scrim" id="scrim"></div>
+
+<nav class="side" id="side" aria-label="Fehrist">
+  <div class="brand"><b>Computer Hardware</b><span>Roman Urdu guide</span></div>
+  <a class="nl" href="#top">Shuru</a>
+  <div class="nav-unit">Unit 1 · Fundamentals</div>
+  <a class="nl" href="#u1c1">Components ki pehchan</a>
+  <a class="nl" href="#u1c2">Voltage napna (Multimeter)</a>
+  <div class="nav-unit">Unit 2 · Motherboard</div>
+  <a class="nl" href="#u2c1">Motherboard</a>
+  <a class="nl" href="#u2c2">Ports</a>
+  <div class="nav-unit">Unit 3 · BIOS &amp; CMOS</div>
+  <a class="nl" href="#u3c1">BIOS aur Booting</a>
+  <a class="nl" href="#u3c2">BIOS features aur setup</a>
+  <div class="nav-unit">Unit 4 · Operating System</div>
+  <a class="nl" href="#u4c1">DOS aur Windows install</a>
+  <a class="nl" href="#u4c2">Software se troubleshooting</a>
+  <div class="nav-unit">Unit 5 · Antivirus</div>
+  <a class="nl" href="#u5c1">Viruses</a>
+  <a class="nl" href="#u5c2">Norton install</a>
+  <a class="nl" href="#u5c3">Patches aur recovery</a>
+  <div class="nav-unit">Practice</div>
+  <a class="nl" href="#quiz">Quiz</a>
+  <a class="nl" href="#bank">Sawalat ki list</a>
+</nav>
+
+<main id="top">
+
+<section class="hero">
+  <svg class="trace" viewBox="0 0 260 200" fill="none" stroke="#2a9d62" stroke-width="1.5" aria-hidden="true"><path d="M0 40h90l20 20h70M0 90h60l25 25h110M40 200v-60l30-30h80l30-30h60M130 0v50l24 24h106"/><circle cx="90" cy="40" r="5" fill="#0b2e1f"/><circle cx="180" cy="60" r="5" fill="#0b2e1f"/><circle cx="195" cy="115" r="5" fill="#0b2e1f"/><circle cx="260" cy="74" r="5" fill="#0b2e1f"/></svg>
+  <span class="tag">Developer · Yasir Alee</span>
+  <h1>Computer <em>Hardware</em></h1>
+  <p class="lead">Computer ke parts, motherboard, ports, BIOS, operating system aur antivirus. Poori kitab Roman Urdu mein, misalon aur chhote tools ke saath.</p>
+  <div class="stats">
+    <div><b>5</b><span>Units</span></div>
+    <div><b>11</b><span>Chapters</span></div>
+    <div><b>5</b><span>Interactive tools</span></div>
+    <div><b>15</b><span>Quiz sawal</span></div>
+  </div>
+  <p class="credit">Asal kitab: Smt. D. Fatima (M.C.A, Assistant Professor, Matrusree Institute of P.G Studies, Hyderabad). Editor: Mr. M. Venkat Das, Osmania University. Saal 2005.</p>
+</section>
+
+<h2 style="font-size:1.4rem;margin-bottom:12px">Kahan se parhna shuru karein?</h2>
+<div class="map">
+  <a href="#u1c1"><small>Unit 1</small><b>Hardware Fundamentals</b><span>Computer kya hai, system components, SMPS, multimeter se voltage.</span></a>
+  <a href="#u2c1"><small>Unit 2</small><b>Motherboard aur Ports</b><span>Form factors, bus, RAM/ROM, chipset, serial, parallel, USB.</span></a>
+  <a href="#u3c1"><small>Unit 3</small><b>BIOS aur CMOS</b><span>POST, boot sequence, CMOS setup, passwords.</span></a>
+  <a href="#u4c1"><small>Unit 4</small><b>Operating Systems</b><span>FDISK, format, DOS aur Windows 98 install, diagnostics.</span></a>
+  <a href="#u5c1"><small>Unit 5</small><b>Antivirus</b><span>Virus ki qismein, Norton install, updates aur scan.</span></a>
+  <a href="#quiz"><small>Practice</small><b>Quiz aur sawalat</b><span>Apni tayari parkhein aur kitab ke sawalat dekhein.</span></a>
+</div>
+
+<!-- ================= UNIT 1 ================= -->
+<div class="unit"><span class="n">1</span><small>Unit 1</small><h2>Hardware Fundamentals</h2><p>Computer kin cheezon se bana hai, har part kya karta hai, aur power supply ki voltage kaise check karte hain.</p></div>
+
+<section class="chap" id="u1c1">
+<header><small>Unit 1 · Chapter 1</small><h3>Components ki pehchan aur unka istemal</h3></header>
+
+<h4>Computer kya hai?</h4>
+<p>Computer ek aisi device hai jo <strong>electronic</strong> aur <strong>electro-mechanical</strong> components se bani hoti hai. Computer khud koi kaam nahi kar sakta; jo physical hissa hota hai usay <strong>hardware</strong> kehte hain.</p>
+<p>Ek computer system teen cheezon se milkar banta hai:</p>
+<div class="grid">
+  <div class="card"><h5>1. Hardware</h5><p>Wo physical parts jinhein aap dekh, chhu aur mehsoos kar sakte hain.</p><p class="eg"><strong>Misaal:</strong> monitor, keyboard, mouse.</p></div>
+  <div class="card"><h5>2. Software</h5><p>Wo instructions jo computer ko batati hain ke kaam kaise karna hai.</p>
+    <p class="eg"><span class="pill">System software</span> operating system, compiler, editor</p>
+    <p class="eg"><span class="pill">Application software</span> MS-Word, Excel, accounting packages</p></div>
+  <div class="card"><h5>3. People</h5><p>Wo log jo computer chalate hain aur software ki instructions banate hain.</p></div>
+</div>
+
+<h4>Computer ki qismein</h4>
+<p>Size, speed aur istemal ke hisab se computer systems ki teen bari qismein hain: Micro, Mini aur Mainframe.</p>
+<div class="grid">
+  <div class="card"><h5>Micro computer (PC)</h5><p>Isay personal computer bhi kehte hain. Ismein ek single silicon chip par bana processor hota hai. Teen sizes mein milta hai: pocket PC, laptop PC aur desktop PC. Chhote karobar mein istemal hota hai.</p><p class="eg"><strong>Misaal:</strong> IBM compatible (IBM clone) aur Apple Macintosh.</p></div>
+  <div class="card"><h5>Multiuser micro computer</h5><p>Pehle micro computers sirf ek bande ke liye hote the. Ab kai micro computers ko network se jor kar kai log ek hi waqt mein istemal kar sakte hain.</p></div>
+  <div class="card"><h5>Mini computer</h5><p>Mainframe ka chhota version. Storage aur processing speed mainframe se kam hoti hai, aur attached printers bhi itne tez nahi hote.</p><p class="eg"><strong>Misaal:</strong> research groups, engineering firms aur colleges.</p></div>
+  <div class="card"><h5>Mainframe computer</h5><p>Bari aur mehngi machine jis ki processing speed bohat zyada, secondary storage bohat bari aur printers tez hote hain. Poori organization ka data process kar sakti hai.</p><p class="eg"><strong>Misaal:</strong> airline booking, railway booking, weather forecasting.</p></div>
+</div>
+
+<h4>System types: bit ke hisab se</h4>
+<div class="tw"><table>
+<tr><th>Bit</th><th>Misaal (processor)</th></tr>
+<tr><td>8-bit</td><td>8085 microprocessor</td></tr>
+<tr><td>16-bit</td><td>8086, 286, 386</td></tr>
+<tr><td>32-bit</td><td>486</td></tr>
+<tr><td>64-bit</td><td>Pentium-II</td></tr>
+</table></div>
+<p>Is se hardware ki do bunyadi classes banti hain: <strong>8-bit (PC/XT) class</strong> aur <strong>16/32/64-bit (AT) class</strong>.</p>
+<div class="grid">
+  <div class="card"><h5>PC / XT</h5><p>PC = Personal Computer. XT = eXTended PC. XT asal mein wo PC thi jis mein floppy ke saath <strong>hard disk</strong> bhi thi. In mein 8-bit processor aur 8-bit ISA bus (Industry Standard Architecture) hota tha.</p></div>
+  <div class="card"><h5>AT</h5><p>AT = Advanced Technology. 16-bit (baad mein 32 aur 64-bit) processors aur expansion slots wali systems. Pehli AT systems mein ISA bus ka 16-bit version tha.</p></div>
+</div>
+<div class="co note"><b>Bus kya hai?</b><p>Expansion slots ko bus kehte hain. Inmein extra plug-in circuit boards lagaye jaate hain. Misalein: 16-bit ISA, 16/32-bit EISA, 32/64-bit PCI, aur 16-bit PC card (PCMCIA).</p></div>
+<div class="co eg"><b>Pehchan ka asaan tareeqa</b><p>Agar system mein sirf 8-bit ISA slots hain to wo <strong>PC/XT</strong> hai (processor koi bhi ho). Agar 16-bit ya us se bare slots (ISA, EISA, PCI) hain to wo <strong>AT</strong> system hai.</p></div>
+
+<h4>System components</h4>
+<p>Aik basic modern PC jorne ke liye ye cheezein chahiye hoti hain:</p>
+<p><span class="pill">Motherboard</span><span class="pill">Processor</span><span class="pill">Memory (Primary)</span><span class="pill">Hard disk</span><span class="pill">CD-ROM</span><span class="pill">Floppy drive</span><span class="pill">Keyboard</span><span class="pill">Mouse</span><span class="pill">Monitor</span><span class="pill">Power supply</span><span class="pill">Cabinet</span></p>
+
+<div class="grid">
+  <div class="card"><h5>Motherboard</h5><p>Computer ka sab se ahem hissa, kyunke baqi har cheez usi se juri hoti hai aur wahi sab kuch control karta hai. Ye alag alag shapes mein milta hai. Is mein ye hote hain: processor slot, voltage regulators, chipset, level 2 cache, memory (SIMM/DIMM) sockets, bus slots, ROM BIOS, clock/CMOS battery aur Super I/O chips.</p></div>
+  <div class="card"><h5>Processor (CPU)</h5><p>Computer ka "engine". Ye memory se commands parhta hai aur unhein execute karta hai. Computer ke sab se mehnge parts mein se hai, magar sab se chhote parts mein bhi.</p><p class="eg"><strong>Misaal:</strong> Intel Pentium 4.</p></div>
+  <div class="card"><h5>Primary memory (RAM / ROM)</h5><p>Memory programs aur data ko execution ke dauran sambhalti hai. <strong>RAM</strong> (Random Access Memory) wo sab programs aur data rakhti hai jo processor abhi istemal kar raha ho. RAM <strong>volatile</strong> hai: bijli band hote hi data mit jaata hai.</p><p><strong>ROM</strong> (Read Only Memory) <strong>permanent</strong> hai: bijli band hone par bhi data nahi mitta. Aam tor par is se operating system load kiya jaata hai.</p></div>
+  <div class="card"><h5>Hard disk drive</h5><p>Aluminium ya ceramic ki ghoomti hui <strong>platters</strong> jin par magnetic media ki coating hoti hai. Isay <strong>secondary memory</strong> bhi kehte hain. Jo programs RAM mein nahi rakhe ja sakte, aur system band hone par bhi data mehfooz rakhna ho, wo yahan save hota hai. Capacity platters ki density, size aur tadaad par depend karti hai.</p></div>
+  <div class="card"><h5>CD-ROM drive</h5><p>CD-ROM = Compact Disk Read Only Memory. Gramophone records jaisi chhoti disks jin mein digital information hoti hai. Naam ke mutabiq ye read only medium hai, magar ab writable CDs bhi aati hain.</p></div>
+  <div class="card"><h5>Floppy disk drive</h5><p>Secondary storage ka sab se slow aur sab se chhota tareeqa. Files ek computer se doosre tak le jaane aur chhoti files ka backup lene ke kaam aata hai. Pichle 10 saal ke PCs mein standard <strong>3½ inch, 1.44 MB</strong> floppy drive hoti hai.</p></div>
+  <div class="card"><h5>Keyboard</h5><p>Zyadatar computers ka main input device. Isse text aur commands likhe jaate hain. Aaj kal multimedia aur wireless keyboards bhi hain.</p></div>
+  <div class="card"><h5>Mouse</h5><p>Graphical User Interface ke saath mouse ek ahem input device bana. User bas point aur click karta hai. Mouse ka sab se bara faida <strong>aasani</strong> hai: kai kaam keyboard se mouse se zyada aasan ho jaate hain.</p></div>
+  <div class="card"><h5>Monitor</h5><p>Television jaisi khaas high-resolution screen. Video card apni video memory ka content monitor ko 1 second mein 60 ya zyada baar bhejta hai. Screen red, green aur blue dots se bani hoti hai jinhein peeche se electron beam roshan karti hai. Video card ki DAC chip tay karti hai kaun sa dot kitni roshni se jale, aur isi se tasveer banti hai.</p></div>
+  <div class="card"><h5>Cabinet</h5><p>Wo dabba jis mein computer ke zyadatar parts rehte hain. Ye parts ko hifazat deta hai, hawa ka rukh (cooling airflow) tay karta hai, aur parts lagane aur nikalne ki jagah deta hai. Cabinet ka design motherboard ki shape ke mutabiq hona chahiye.</p></div>
+</div>
+
+<h4>Power supply (SMPS)</h4>
+<p><strong>SMPS</strong> = Switch Mode Power Supply. Ye PC ke har part ko bijli deta hai. Is ka asal kaam <strong>230 V AC</strong> ko system ke liye zaroori <strong>3.3 V, 5 V aur 12 V DC</strong> mein badalna hai.</p>
+<p>Bijli dene ke ilawa ye yeh bhi yaqeeni banata hai ke system tab tak na chale jab tak bijli kafi na ho. Start se pehle power supply andar ki checking karta hai. Agar sab theek ho to motherboard ko ek khaas signal <strong>Power_Good</strong> bhejta hai. Agar ye signal musalsal na mile to computer chalta hi nahi.</p>
+<div class="co eg"><b>Misaal</b><p>Bijli ka voltage gir jaye (AC voltage dip) aur power supply par zor parh jaye ya wo garam ho jaye, to <strong>Power_Good</strong> signal gir jata hai. Nateeja: system reset ho jata hai ya poori tarah band ho jata hai.</p></div>
+
+<h4>Peripheral devices</h4>
+<p>Koi bhi external device jo computer ke bunyadi kaam ke liye zaroori nahi, magar extra salahiyat deti hai, <strong>peripheral</strong> kehlati hai.</p>
+<p class="eg"><strong>Misaal:</strong> printers, modems, speakers.</p>
+
+<div class="grid">
+  <div class="card"><h5>Modem</h5><p><strong>Mo</strong>dulator + <strong>Dem</strong>odulator. Ye phone line par digital data bhejne ke kaam aata hai. Bhejne wala modem digital data ko analog mein badalta hai (taa ke phone line se guzar sake), aur wasool karne wala modem usay wapas digital banata hai. Internet se connect hone ke liye istemal hota hai.</p>
+  <p class="eg">Computer → modem → telephone network → modem → terminal.</p></div>
+  <div class="card"><h5>Printer</h5><p>Is ka asal kaam kisi document ki chhapi hui copy (hard copy) banana hai.</p><p><span class="pill">Laser</span><span class="pill">Inkjet</span><span class="pill">Dot-Matrix</span></p></div>
+</div>
+
+<h5>Modem ki speed ka safar</h5>
+<div class="tw"><table>
+<tr><th>Speed</th><th>Kab mashhoor hui</th></tr>
+<tr><td class="num">300 bps</td><td>1960s se 1983 tak</td></tr>
+<tr><td class="num">1200 bps</td><td>1984-1985 mein mashhoor</td></tr>
+<tr><td class="num">2400 bps</td><td>(is ke baad)</td></tr>
+<tr><td class="num">9600 bps</td><td>1990 ke aakhir / 1991 ke shuru mein pehli baar</td></tr>
+<tr><td class="num">19.2 Kbps</td><td></td></tr>
+<tr><td class="num">28.8 Kbps</td><td></td></tr>
+<tr><td class="num">33.6 Kbps</td><td></td></tr>
+<tr><td class="num">56 Kbps</td><td>1998 mein standard bani</td></tr>
+<tr><td class="num">ADSL (8 Mbps tak)</td><td>1999 mein mashhoor hui</td></tr>
+</table></div>
+
+<div class="sum"><b>Khulasa</b><ol>
+<li>Computer electro-mechanical aur electronic components se bana hota hai.</li>
+<li>Software computer ko istemal ke qabil banata hai.</li>
+<li>Microprocessor ke hisab se systems PC-XT aur PC-AT mein baante jaate hain.</li>
+<li>Ahem components: processor, memory, keyboard, mouse, monitor wagairah.</li>
+<li>SMPS, AC (Alternating Current) ko DC (Direct Current) mein badalta hai.</li>
+</ol></div>
+</section>
+
+<section class="chap" id="u1c2">
+<header><small>Unit 1 · Chapter 2</small><h3>Mukhtalif levels par voltage napna</h3></header>
+
+<h4>Multimeter kya hai?</h4>
+<p>Meter napne wala instrument hai. <strong>Ammeter</strong> current napta hai, <strong>voltmeter</strong> do points ke darmiyan potential difference (voltage) napta hai, aur <strong>ohmmeter</strong> resistance napta hai. <strong>Multimeter</strong> in sab kaamon ko (aur kuch aur ko) ek hi instrument mein jama kar deta hai.</p>
+<p>Multimeter se voltage signals check hote hain, power supply ka output test hota hai, aur kisi circuit ya cable mein <strong>continuity</strong> (taar toota to nahi) bhi dekhi jaati hai.</p>
+
+<h4>Digital Multimeter (DMM)</h4>
+<p>Power supply par sab se aasan test uske <strong>output voltages</strong> check karna hai. Is se pata chalta hai ke power supply theek chal raha hai aur voltages sahi tolerance range mein hain ya nahi.</p>
+<div class="co warn"><b>Yaad rakhein</b><p>Voltages hamesha power supply ko <strong>load</strong> ke saath napein, yaani jab wo system mein lagi ho aur system on ho.</p></div>
+
+<h4>Back probing</h4>
+<p>Chalte system ki voltage napne ke liye connectors par <strong>back probing</strong> karte hain. Power supply se nikalne wali taarein: red, yellow, orange, black aur white. Zyadatar connectors ke peeche taar andar jaane wali jagah khuli hoti hai. Meter ki leads itni patli hoti hain ke taar ke bagal se andar ja kar metal terminal ko chhu leti hain. Chunke aap connector ko <strong>peeche</strong> se probe karte hain, isay back probing kehte hain.</p>
+
+<h4>Power_Good signal check karna</h4>
+<p>Power_Good pin par <strong>+3 V se +6 V</strong> ka voltage hona chahiye. Agar reading is range mein nahi to system ko Power_Good signal nahi milta aur wo theek se start nahi hota. Aksar is ka matlab hota hai ke power supply kharab hai aur badalni hogi.</p>
+
+<h4>Tolerance table</h4>
+<p>Testing ke liye desired voltage se 10% tak farq qabil-e-qabool hai. Behtar power supplies mein 5% tight tolerance hoti hai. ATX power supplies ke liye voltage rating ke <strong>5%</strong> ke andar honi chahiye, siwaye 3.3 V ke jis ke liye <strong>4%</strong> hai.</p>
+<div class="tw"><table>
+<tr><th>Desired voltage</th><th>Loose min (-10%)</th><th>Loose max (+8%)</th><th>Tight min (-5%)</th><th>Tight max (+5%)</th></tr>
+<tr><td class="num">+3.3 V</td><td class="num">2.97 V</td><td class="num">3.63 V</td><td class="num">3.135 V</td><td class="num">3.465 V</td></tr>
+<tr><td class="num">±5.0 V</td><td class="num">4.5 V</td><td class="num">5.4 V</td><td class="num">4.75 V</td><td class="num">5.25 V</td></tr>
+<tr><td class="num">±12.0 V</td><td class="num">10.8 V</td><td class="num">12.9 V</td><td class="num">11.4 V</td><td class="num">12.6 V</td></tr>
+</table></div>
+<div class="tw"><table>
+<tr><th>Signal</th><th>Minimum</th><th>Maximum</th></tr>
+<tr><td>Power_Good +5 V</td><td class="num">3.0 V</td><td class="num">6.0 V</td></tr>
+</table></div>
+<p>Power_Good ki tolerance baqi signals se alag hai. Ye aam tor par +5 V ka signal hota hai aur is ka trigger point taqreeban +2.5 V hota hai, lekin zyadatar systems ko is signal ka voltage upar di hui range mein chahiye hota hai.</p>
+
+<div class="tool">
+  <b class="t">Tool: Voltage check calculator</b>
+  <p style="font-size:.93rem;color:var(--ink2)">Rail aur tolerance chunein, phir meter ki reading likhein. Range upar wali table se li gayi hai.</p>
+  <div class="row">
+    <label>Rail<select id="vRail"><option value="3.3">+3.3 V</option><option value="5" selected>±5.0 V</option><option value="12">±12.0 V</option><option value="pg">Power_Good</option></select></label>
+    <label>Tolerance<select id="vTol"><option value="tight">Tight (±5%)</option><option value="loose">Loose (-10% / +8%)</option></select></label>
+    <label>Meter reading (V)<input id="vRead" type="number" step="0.01" value="5.05"></label>
+  </div>
+  <div class="out" id="vOut"></div>
+</div>
+
+<h4>Meters: leads aur scale</h4>
+<p>DMM ke paas test leads (probes) ki ek jori hoti hai. Meter ki setting ke mutabiq ye electrical resistance, direct current (DC) voltage ya alternating current (AC) voltage napti hai.</p>
+<p>DC voltage aam tor par kai scales mein parhi ja sakti hai, maximum <strong>200 mV, 2 V, 20 V, 200 V aur 1000 V</strong> tak. Computers +5 V aur +12 V istemal karte hain, is liye napne ke liye <strong>20 V scale</strong> chunni chahiye.</p>
+<div class="co warn"><b>Ehtiyat</b><p>200 mV ya 2 V scale par napne se meter kharab ho sakta hai, kyunke voltage us se bohat zyada hoti hai. 200 V ya 1000 V scale par kaam to hota hai, lekin 5 V aur 12 V maximum scale ke muqable mein itni chhoti hoti hain ke reading ki accuracy kam ho jati hai. Agar voltage ka andaza na ho to <strong>sab se upar wale scale</strong> se shuru karein aur neeche aayein.</p></div>
+
+<h4>Multimeter se voltage napne ke steps</h4>
+<h5>A. Wall socket ki 230 V check karna</h5>
+<ol class="steps">
+<li>Multimeter ka knob ghuma kar kisi bhi <strong>AC voltage</strong> par set karein jo 230 V se zyada ho.</li>
+<li>Positive lead (red) ko <strong>phase</strong> (+ve terminal) mein aur negative lead (black) ko <strong>neutral</strong> (-ve terminal) mein lagayein.</li>
+<li>Reading note karein. Honi 230 V chahiye, magar amli tor par <strong>210 se 230 V</strong> tak theek hai.</li>
+</ol>
+<h5>B. Hard disk ki power check karna</h5>
+<ol class="steps">
+<li>Multimeter ko <strong>DC voltage</strong> par set karein, 12 V se zyada aur zyada se zyada 20 V.</li>
+<li>System on karein.</li>
+<li>Red lead ko power connector ki <strong>red taar</strong> mein aur black lead ko hard disk power connector ki <strong>black taar</strong> mein lagayein.</li>
+<li>Reading +5 V honi chahiye. Tolerance upar wali tables se dekhein.</li>
+<li>Yahi kaam <strong>yellow aur black</strong> taaron ke liye bhi dohrayein.</li>
+</ol>
+<p>Isi tareeqe se motherboard, CPU fan, floppy drive, CD-ROM wagairah ki power bhi napi ja sakti hai.</p>
+
+<div class="sum"><b>Khulasa</b><ol>
+<li>Computer ki power supply napne ke liye digital multimeter istemal hota hai.</li>
+<li>System start hone ke liye Power_Good signal zaroori hai.</li>
+</ol></div>
+</section>
+
+<!-- ================= UNIT 2 ================= -->
+<div class="unit"><span class="n">2</span><small>Unit 2</small><h2>Motherboard aur Ports</h2><p>Computer ka main circuit board, uske form factors, memory, bus, aur bahar ki duniya se judne wale ports.</p></div>
+
+<section class="chap" id="u2c1">
+<header><small>Unit 2 · Chapter 1</small><h3>Motherboard</h3></header>
+
+<h4>Motherboard kya hai?</h4>
+<p>Motherboard kisi bhi personal computer ka sab se ahem component hai. Is mein computer ke lagbhag tamam zaroori hisse hote hain. IBM ise "system board" ya "planar board" kehta hai aur kuch aur manufacturers "logic board".</p>
+<p>Ye PC ke andar ka <strong>main circuit board</strong> hai jis par processor, memory aur expansion slots lage hote hain aur jo seedha ya ulta har part se juda hota hai. Ye ek <strong>chipset</strong> ("glue logic"), ROM mein kuch code, aur mukhtalif interconnections ya <strong>buses</strong> se bana hota hai.</p>
+
+<h4>Motherboard ka irtiqa (Evolution)</h4>
+<p>Asal PC mein bohat kam integrated devices thin: sirf keyboard aur cassette deck (storage) ke ports. Baqi sab kuch, display adapter, floppy aur hard disk controllers samet, <strong>add-in cards</strong> ke tor par expansion slots se jora jaata tha.</p>
+<p>Waqt ke saath zyada devices motherboard mein integrate hoti gayin. Magar graphics, networking, SCSI aur sound aksar alag hi rahe.</p>
+<div class="grid">
+  <div class="card"><h5>Integration ke faide</h5><p>Cost kam hoti hai, jagah bachti hai, aur sound ya graphics card alag se khareedne ki zarurat nahi parti.</p></div>
+  <div class="card"><h5>Integration ke nuqsanat</h5><p>Upgrade mushkil, kharab ek part ke liye poora motherboard badalna parta hai, aur kai integrated boards ko non-standard cases chahiye hote hain.</p></div>
+</div>
+<div class="co eg"><b>Misaal</b><p>Jin parts ki specification sab se tezi se badalti hai, yaani RAM, CPU aur graphics, wo sockets ya slots mein hi rakhe jaate hain taa ke aasani se badle ja saken. Jo cheezein sab ko nahi chahiye (networking, SCSI) wo base specification se bahar rakhi jaati hain taa ke cost kam rahe.</p></div>
+
+<h4>Motherboard form factors</h4>
+<p>Form factor ka matlab board ka <strong>physical size aur dimensions</strong>. Ye tay karta hai ke motherboard kis qism ke case mein fit hoga. Shuru ke PCs mein 12 inch chora AT form factor tha. Is ki bari size se upgrade mushkil tha, is liye <strong>1989</strong> mein chhota <strong>Baby-AT</strong> aaya. Sab designs open standards hain, is liye manufacturers ke boards mein design ka kafi farq ho sakta hai.</p>
+<div class="tw"><table>
+<tr><th>Form factor</th><th>Size</th><th>Khaas baatein</th></tr>
+<tr><td>Baby-AT (BAT)</td><td class="num">9 × 10 in</td><td>AT-style keyboard connector board par soldered. Serial aur parallel ports cables se jurte hain. Processor socket aage hota hai, is liye lambi expansion cards ke neeche aa jata hai (CPU nikalne ke liye cards pehle nikalne parte). Cooling ke liye extra fan ya heatsink chahiye.</td></tr>
+<tr><td>ATX</td><td class="num">12 × 9.6 in<br>(mini-ATX: 11.2 × 8.2 in)</td><td>Intel ne 1996 mein banaya. CPU socket ko expansion bus ke right side par le gaya. Ports ek double-height I/O shield par seedhe soldered hote hain, is liye cables kam. ATX power supply software se on/off ho sakti hai (notebook jaisa power management) aur 3.3 V bhi seedha deti hai.</td></tr>
+<tr><td>NLX</td><td class="num">8.8 × 13 in</td><td>Intel ka 1997 ka design, LPX ki behtar shakal, low-profile cases ke liye, maintenance asaan. Saare slots aur power cables ek edge-mounted riser card par hote hain.</td></tr>
+<tr><td>LPX</td><td></td><td>Low-profile desktop systems ka design.</td></tr>
+<tr><td>Proprietary</td><td></td><td>Jo kisi standard form factor (Full AT, Baby-AT, ATX, NLX) mein nahi aate.</td></tr>
+<tr><td>Backplane systems</td><td></td><td>Proprietary design ki ek qism. Motherboard hota hi nahi; wo components ek adapter card par hote hain jo slots wale "backplane" mein lagta hai.</td></tr>
+</table></div>
+<div class="co note"><b>Dhyan rahe</b><p>ATX ko naye designed case chahiye (ports ke cut-outs sahi jagah par), aur ATX ya Mini-ATX boards AT-style cases mein nahi lag sakte. Kuch BAT designs AT ya ATX dono power supplies chala lete hain.</p></div>
+
+<h4>Motherboard ke components</h4>
+<p><span class="pill">Expansion slots</span><span class="pill">CPU (Main processor)</span><span class="pill">Coprocessor</span><span class="pill">Memory</span><span class="pill">BIOS</span><span class="pill">Chipset (interrupt, DMA wagairah)</span></p>
+
+<h5>Expansion slots</h5>
+<p>Ye motherboard par computer ke peeche ki taraf lagi lambi patli connectors hoti hain. Inmein mukhtalif expansion cards lagti hain: display card, hard drive controller, sound card, network card, modem card wagairah. Card lagane par wo motherboard ke <strong>data, address aur control bus</strong> se jur jaata hai.</p>
+
+<h5>Bus kya hai?</h5>
+<p>Bus ek <strong>electronic raasta</strong> hai jis par signals computer ke ek hisse se doosre tak jaate hain. Buses ki qismein is par hain ke wo ek waqt mein kitne <strong>bits</strong> bhej sakti hain.</p>
+<ul>
+<li>Agar data bus 8 bit chora hai to wo ek waqt mein 8 bits bhejta hai (8-bit bus).</li>
+<li>8-bit bus par 16-bit data bhejne ke liye <strong>do</strong> transfers lagte hain.</li>
+<li><strong>Bandwidth</strong> = ek waqt mein bus mein kitna data fit ho sakta hai.</li>
+</ul>
+<div class="co eg"><b>Misaal: paani ka paip</b><p>Jaise paip se zyada paani nikalne ke liye aap ya to paip ka diameter bara kar sakte hain ya paani ka bahao tez kar sakte hain. Isi tarah bus ki width badha kar (8 bit se 16 bit) ya bandwidth badha kar (8 MHz se 20 MHz) data ka bahao badhaya jaata hai.</p></div>
+
+<div class="tool">
+  <b class="t">Tool: Bus width demo</b>
+  <p style="font-size:.93rem;color:var(--ink2)">64-bit data bhejna hai. Dekhein bus ki width se kitne transfers lagte hain.</p>
+  <div class="row"><label>Bus width: <b id="busW" style="color:#fff">8</b> bit<input id="busR" type="range" min="0" max="3" step="1" value="0"></label></div>
+  <div class="pipe" id="busPipe" aria-hidden="true"></div>
+  <div class="out ok"><span class="big" id="busN">8</span> transfers<br><span id="busT" style="color:var(--ink2)"></span></div>
+</div>
+
+<div class="grid">
+  <div class="card"><h5>Data bus</h5><p>Motherboard par taaron ya tracks ka set jo data ko computer ke ek hisse se doosre tak le jaata hai.</p></div>
+  <div class="card"><h5>Address bus</h5><p>Motherboard ke Printed Circuit Board (PCB) par taaron ka set jo <strong>memory location ka address</strong> batata hai.</p></div>
+</div>
+<p>Expansion slot bus ki qismein:</p>
+<p><span class="pill">8-bit ISA</span><span class="pill">16-bit ISA</span><span class="pill">MCA</span><span class="pill">EISA</span><span class="pill">VESA local bus (VL bus)</span><span class="pill">PCI local bus</span></p>
+
+<h5>CPU (Main processor)</h5>
+<p>Motherboard ka sab se ahem hissa. Ye system ke tamam andruni kaam control karta hai aur har PC ka <strong>dimagh</strong> hai. Aam tor par ye socket mein <strong>lagaya</strong> jaata hai, solder nahi hota, is liye kharabi par badalna aasan hai.</p>
+<p class="eg"><strong>Misaal:</strong> Intel 8088, 8086, 80286, 80386, 80486, Pentium, Pentium MMX, Pentium-II, Pentium III, Pentium-IV.</p>
+
+<h5>Coprocessor</h5>
+<p>Special purpose microprocessor jo main processor ke kuch kaam apne zimme le kar usay tez karta hai. Sab se aam <strong>math coprocessor</strong> hai jo mathematical calculations mein madad karta hai. Purane systems (XT, AT, AT-386) mein ise motherboard ke special socket mein lagana parta tha, jabke aaj ke CPUs mein math coprocessor <strong>andar hi built-in</strong> hota hai.</p>
+
+<h5>Memory</h5>
+<p>Memory wo jagah hai jahan computer <strong>program</strong> (instructions ka set) aur <strong>data</strong> rakhta hai.</p>
+<div class="co eg"><b>Misaal</b><p>Marks sheet print karne wale program ko data chahiye: students ke roll number, naam aur mukhtalif subjects ke marks.</p></div>
+<div class="grid">
+  <div class="card"><h5>RAM</h5><p>Read/write memory. Processor isay program, data aur beech ke nateeje rakhne ke liye istemal karta hai. <strong>Volatile</strong> hai: bijli band to data ghayab. Motherboard par lagne ke tareeqe:</p>
+  <p><span class="pill">DIP</span> shuruati boards mein<br><span class="pill">SIMM</span> baad mein aam hua<br><span class="pill">DIMM</span> aaj sab se aam</p></div>
+  <div class="card"><h5>ROM</h5><p>Naam ke mutabiq <strong>read only</strong>; data manufacturer likhta hai. Bara faida: <strong>non-volatile</strong>, bijli band hone par bhi data rehta hai. Motherboard par ek ya zyada ROM chips hoti hain. XT ke liye 64 KB kafi tha, AT ko 256 KB chahiye.</p></div>
+</div>
+
+<h5>Memory ki ikaaiyan</h5>
+<div class="tool">
+  <b class="t">Tool: Memory unit converter</b>
+  <div class="row">
+    <label>Qeemat<input id="uVal" type="number" min="0" value="1"></label>
+    <label>Se<select id="uFrom"><option value="1">Byte</option><option value="1024" selected>Kilobyte (KB)</option><option value="1048576">Megabyte (MB)</option><option value="1073741824">Gigabyte (GB)</option></select></label>
+  </div>
+  <div class="out" id="uOut"></div>
+  <p style="font-size:.9rem;color:var(--ink2);margin:12px 0 0">Bit = 0 ya 1. Nibble = 4 bits. Byte = 8 bits. 1 KB = 1024 bytes. 1 MB = 1024 KB. 1 GB = 1024 MB.</p>
+</div>
+
+<h5>BIOS</h5>
+<p><strong>BIOS</strong> = Basic Input Output System ("bye-os" parha jaata hai). Ye ROM mein rakhe sab se ahem programs mein se ek hai. Is ki wajah se aap ke application programs aur hardware (floppy, hard disk, video adapter wagairah) aapas mein baat kar sakte hain. Is mein <strong>POST</strong> (Power-On-Self-Test) bhi hota hai jo system on hote hi motherboard aur juri hui devices check karta hai.</p>
+<p>Asal BIOS IBM ne banaya tha, magar ab compatible BIOS <strong>Award, Phoenix aur American Megatrends Inc. (AMI)</strong> jaise manufacturers bhi banate hain.</p>
+
+<h5>CMOS memory</h5>
+<p><strong>CMOS</strong> = Complementary Metal Oxide Semiconductor. Purane IBM XT mein BIOS jumpers ki madad se jaanta tha ke kaun se components lage hain. IBM AT aur us se upar ke systems mein jumpers nahi hote; wo system ki configuration, tareekh aur waqt wagairah <strong>CMOS memory</strong> mein rakhte hain. Ye memory ek <strong>battery</strong> se chalti hai, is liye system band hone par bhi information mehfooz rehti hai. Boot par BIOS CMOS ki information ko lage hue components se milata hai aur farq milne par error message dikhata hai.</p>
+
+<h5>Cache memory</h5>
+<p>Thori si (aam tor par 1 MB se kam) <strong>tez raftaar memory</strong> jo CPU ke andar ya bilkul qareeb hoti hai. Ye processor ko sab se zyada manga jaane wala data aur instructions deti hai.</p>
+<p><strong>Level 1 (primary)</strong> processor ke sab se qareeb. <strong>Level 2 (secondary)</strong> doosre number par qareeb, aam tor par motherboard par.</p>
+
+<h5>Support chips / Chipsets</h5>
+<p>Processor aur memory ke ilawa motherboard par bohat si controller chips hoti hain jo sab ko jorti hain. Ek zamane mein interrupt controller, DMA controller, timer, clock chip, bus controller aur I/O interface chips ka alag alag hona zaroori tha. Ab <strong>VLSIC</strong> (Very Large Scale Integrated Circuits) ki badaulat 2-3 chips wo sab kaam kar leti hain jo pehle darjanon chips karti thin. In VLSIC chips ke set ko <strong>chipset</strong> kehte hain. Kai chipsets mein serial/parallel ports, floppy aur hard disk controller, USB, LAN, audio aur display adapter bhi shamil hote hain.</p>
+
+<h5>Motherboard configuration</h5>
+<ul>
+<li>PC aur XT class ke zyadatar motherboards <strong>jumpers ya switches</strong> se set hote hain.</li>
+<li>AT aur baad ki machines mein options <strong>CMOS RAM</strong> mein rakhe jaate hain aur BIOS ROM ki <strong>SETUP utility</strong> se set hote hain.</li>
+</ul>
+<div class="co warn"><b>Ehtiyat</b><p>Motherboard ki configuration hamesha bilkul theek honi chahiye. Ghalat setup se system kharab kaam kar sakta hai ya crash ho sakta hai.</p></div>
+<div class="co eg"><b>Motherboard ka model kaise pata karein?</b><p>Aakhri ISA slot ke side par laga safed sticker dekhein, ya board par chhape hue nishanat parhein.</p></div>
+
+<div class="sum"><b>Khulasa</b><ol>
+<li>Motherboard PC ka main circuit hai.</li>
+<li>Is mein CPU, memory, SMPS connector jaise ahem components hote hain.</li>
+<li>Integrated motherboards mein graphics, LAN, audio wagairah board ke andar hi hote hain (sasta hal).</li>
+<li>Form factors: Baby-AT, ATX, NLX, LPX.</li>
+<li>Motherboard ka model: aakhri ISA slot ke side wala safed sticker ya board par chhapa hua.</li>
+</ol></div>
+</section>
+
+<section class="chap" id="u2c2">
+<header><small>Unit 2 · Chapter 2</small><h3>Ports</h3></header>
+
+<h4>Introduction</h4>
+<p>Kisi bhi PC system mein sab se bunyadi communication ports <strong>serial</strong> aur <strong>parallel</strong> ports hain. Serial ports shuru mein un devices ke liye the jo system se do-tarfa (bi-directional) baat karti hain, jaise modems, mice aur scanners. Naye parallel port standards ab parallel port se bhi tez do-tarfa communication ki ijazat dete hain.</p>
+
+<h4>Serial ports</h4>
+<p>Serial port computer ke sab se bunyadi external connections mein se hai aur 20 saal se zyada se zyadatar computers ka hissa raha hai. Naye systems USB ko tarjeeh dete hain, magar zyadatar modems, kuch printers, PDAs aur digital cameras ab bhi serial port istemal karte hain. Aksar computers mein do se zyada serial ports nahi hote.</p>
+<p>Naam "serial" is liye hai ke ye data ko <strong>serialize</strong> karta hai: ek byte lekar uske 8 bits <strong>ek ke baad ek</strong> bhejta hai.</p>
+<div class="grid">
+  <div class="card"><h5>Faida</h5><p>Sirf <strong>ek taar</strong> chahiye 8 bits bhejne ke liye (parallel ko 8 taarein). Cable sasti aur patli.</p></div>
+  <div class="card"><h5>Nuqsan</h5><p>Data bhejne mein parallel se <strong>8 guna zyada waqt</strong> lagta hai.</p></div>
+</div>
+
+<div class="tool">
+  <b class="t">Tool: Serial vs Parallel</b>
+  <p style="font-size:.93rem;color:var(--ink2)">Ek byte (8 bits) ka safar. Dekhein parallel mein saare bits ek saath jaate hain, serial mein qatar mein.</p>
+  <div class="wires">
+    <div class="wire"><small>Parallel port: 8 taarein, poora byte ek hi waqt mein pahunchta hai</small><div class="lane"><b></b></div><div class="lane"><b></b></div><div class="lane"><b></b></div><div class="lane"><b></b></div><div class="lane"><b></b></div><div class="lane"><b></b></div><div class="lane"><b></b></div><div class="lane"><b></b></div></div>
+    <div class="wire"><small>Serial port: 1 taar, 8 bits ek ke baad ek, is liye zyada waqt</small><div class="lane"><b style="--d:0.0s"></b><b style="--d:0.8s"></b><b style="--d:1.6s"></b><b style="--d:2.4s"></b><b style="--d:3.2s"></b><b style="--d:4.0s"></b><b style="--d:4.8s"></b><b style="--d:5.6s"></b></div></div>
+  </div>
+</div>
+
+<h5>Start bit, stop bit, parity</h5>
+<p>Har byte se pehle serial port ek <strong>start bit</strong> (value 0) bhejta hai. Har byte ke baad ek <strong>stop bit</strong> bhejta hai jo batata hai ke byte mukammal hua. Ek <strong>parity bit</strong> bhi ja sakta hai.</p>
+<p>Serial ports ko <strong>communication (COM) ports</strong> bhi kehte hain aur ye <strong>bi-directional</strong> hote hain.</p>
+<div class="grid">
+  <div class="card"><h5>Half-duplex</h5><p>Data bhejne aur wasool karne ke liye wohi pins istemal hon to ek waqt mein sirf ek taraf data ja sakta hai.</p></div>
+  <div class="card"><h5>Full-duplex</h5><p>Alag alag pins hon to data dono taraf ek hi waqt mein ja sakta hai.</p></div>
+</div>
+
+<h5>UART kyun zaroori hai?</h5>
+<p>Serial ports ko theek se chalne ke liye ek khaas controller chip chahiye: <strong>UART</strong> (Universal Asynchronous Receiver/Transmitter). UART computer ke system bus ka <strong>parallel</strong> output le kar usay <strong>serial</strong> form mein badalta hai. Tez chalne ke liye zyadatar UART chips mein 16 se 64 KB ka buffer hota hai jo system bus se aane wala data cache karta hai jab tak wo serial port se bahar ja raha ho. Misaal: National Semiconductor NS16550D UART chip (40-pin DIP).</p>
+<p>Aam serial ports ki maximum speed <strong>115 Kbps</strong> hoti hai. <strong>ESP</strong> (Enhanced Serial Port) aur <strong>Super ESP</strong> 460 Kbps tak ja sakte hain.</p>
+
+<h5>Serial connection: 9-pin aur 25-pin</h5>
+<p>External connector 9 pin ya 25 pin ka ho sakta hai. Shuru mein serial port ka asal kaam modem jorna tha, aur pins ki zimmedari isi hisab se hai. 9-pin connector ke pins (modem ke saath):</p>
+<div class="tw"><table>
+<tr><th>Pin</th><th>Naam</th><th>Kaam</th></tr>
+<tr><td class="num">1</td><td>Carrier Detect</td><td>Pata chalta hai modem kisi chalti phone line se juda hai ya nahi.</td></tr>
+<tr><td class="num">2</td><td>Receive Data</td><td>Computer modem ki bheji hui information wasool karta hai.</td></tr>
+<tr><td class="num">3</td><td>Transmit Data</td><td>Computer modem ko information bhejta hai.</td></tr>
+<tr><td class="num">4</td><td>Data Terminal Ready</td><td>Computer modem ko batata hai ke wo baat karne ko tayyar hai.</td></tr>
+<tr><td class="num">5</td><td>Signal Ground</td><td>Pin grounded hai.</td></tr>
+<tr><td class="num">6</td><td>Data Set Ready</td><td>Modem computer ko batata hai ke wo tayyar hai.</td></tr>
+<tr><td class="num">7</td><td>Request To Send</td><td>Computer modem se puchta hai ke kya wo information bhej sakta hai.</td></tr>
+<tr><td class="num">8</td><td>Clear To Send</td><td>Modem computer ko batata hai ke wo information bhej sakta hai.</td></tr>
+<tr><td class="num">9</td><td>Ring Indicator</td><td>Call hone par modem ki ring ka signal computer maan leta hai.</td></tr>
+</table></div>
+<p>25-pin connector mein asal kaam ke pins ye hain: <span class="pill">2 Transmit Data</span><span class="pill">3 Receive Data</span><span class="pill">4 Request To Send</span><span class="pill">5 Clear To Send</span><span class="pill">6 Data Set Ready</span><span class="pill">7 Signal Ground</span><span class="pill">8 Received Line Signal Detector</span><span class="pill">20 Data Terminal Ready</span><span class="pill">22 Ring Indicator</span>. Baqi pins zyadatar <strong>Not Used</strong> hain (pin 1, 9-19 mein se kuch current-loop pins, 21, 23-25).</p>
+<div class="co note"><b>Voltage ki do halaten</b><p>Pins par bheji gayi voltage ya <strong>On</strong> hoti hai ya <strong>Off</strong>. On (binary 1) = pin <strong>-3 se -25 V</strong> ka signal bhej raha hai. Off (binary 0) = pin <strong>+3 se +25 V</strong> ka signal bhej raha hai.</p></div>
+
+<h4>Parallel ports</h4>
+<p>Agar aap ka printer computer se juda hai to bohat imkan hai ke wo parallel port se juda ho. USB mashhoor ho raha hai magar parallel port printers ke liye ab bhi aam interface hai.</p>
+<p>Parallel port se ye peripherals jur sakte hain: <span class="pill">Printers</span><span class="pill">Scanners</span><span class="pill">CD burners</span><span class="pill">External hard drives</span><span class="pill">Iomega Zip drives</span><span class="pill">Network adapters</span><span class="pill">Tape backup drives</span></p>
+
+<h5>Parallel port ki buniyad</h5>
+<p>Parallel ports IBM ne PC ko printer se jorne ke liye banaye. IBM chahta tha ke uska PC us waqt ke bare printer maker <strong>Centronics</strong> ke printers ke saath chale, magar usne PC par wohi port interface istemal na karne ka faisla kiya. IBM engineers ne <strong>25-pin DB-25</strong> connector ko <strong>36-pin Centronics</strong> connector se jor kar ek khaas cable banayi. Doosre printer makers ne bhi Centronics interface apna liya aur ye ajeeb hybrid cable de facto standard ban gayi.</p>
+<p>Jab PC parallel port se data bhejta hai to ek waqt mein <strong>8 bits (1 byte)</strong> bhejta hai. Standard parallel port 1 second mein <strong>50 se 100 KB</strong> data bhej sakta hai.</p>
+<div class="tw"><table>
+<tr><th>Pins (DB-25)</th><th>Signal</th></tr>
+<tr><td class="num">1</td><td>Strobe</td></tr>
+<tr><td class="num">2 - 9</td><td>data0 se data7 (8 data pins)</td></tr>
+<tr><td class="num">10</td><td>Acknowledge</td></tr>
+<tr><td class="num">11</td><td>Busy</td></tr>
+<tr><td class="num">12</td><td>Paper End</td></tr>
+<tr><td class="num">13</td><td>Select</td></tr>
+<tr><td class="num">14</td><td>Auto Feed</td></tr>
+<tr><td class="num">15</td><td>Error</td></tr>
+<tr><td class="num">16</td><td>Init</td></tr>
+<tr><td class="num">17</td><td>Select In</td></tr>
+<tr><td class="num">18 - 25</td><td>GND (ground)</td></tr>
+</table></div>
+
+<h5>SPP, EPP aur ECP</h5>
+<p>Parallel port ki asal specification <strong>unidirectional</strong> thi: har pin par data sirf ek taraf jaata tha. 1987 mein PS/2 ke saath IBM ne <strong>bidirectional</strong> design diya jo <strong>SPP</strong> (Standard Parallel Port) kehlata hai aur ab pehle design ki jagah le chuka hai. Sirf data pins (2-9) istemal ho to communication half-duplex rehti hai. Pins 18-25 (pehle sirf ground) ko bhi data pins ke tor par istemal karne se full-duplex mumkin hota hai.</p>
+<div class="grid">
+  <div class="card"><h5>EPP: Enhanced Parallel Port</h5><p>1991 mein Intel, Xircom aur Zenith ne banaya. <strong>500 KB se 2 MB</strong> per second data. Printers ke bajaye non-printer devices (khaas tor par storage) ke liye jinhein sab se zyada transfer rate chahiye.</p></div>
+  <div class="card"><h5>ECP: Extended Capabilities Port</h5><p>1992 mein Microsoft aur Hewlett Packard ne mil kar elan kiya. Ye <strong>printers</strong> ki speed aur functionality behtar karne ke liye bana.</p></div>
+</div>
+<p>1994 mein <strong>IEEE 1284</strong> standard aaya jis mein EPP aur ECP dono shamil thay. Kaam karne ke liye operating system aur device dono ko required specification support karni chahiye. Aaj zyadatar computers SPP, ECP aur EPP support karte hain aur khud pehchan lete hain. Haath se mode select karna ho to zyadatar computers mein BIOS se kiya ja sakta hai.</p>
+
+<h4>USB kya hai?</h4>
+<p><strong>USB</strong> = Universal Serial Bus. Pehle devices jorna ek bara dard-e-sar tha: printers parallel port par (aur aksar computer mein sirf ek hota), Zip drives jaisi tez devices ko bhi wohi port, modem aur kuch printers serial port par (jo bohat slow), aur tez devices ke liye apne cards jo case ke andar slot mein lagte (slots limited aur software install karna mushkil).</p>
+<p>USB ka maqsad in sab pareshaniyon ko khatam karna hai. Ye ek ikhatta, standard aur aasan tareeqa deta hai ke aap computer se <strong>127 devices</strong> tak jor saken. Aaj lagbhag har peripheral USB version mein milta hai.</p>
+<p><strong>USB devices ki misalein:</strong> <span class="pill">Printers</span><span class="pill">Scanners</span><span class="pill">Mice</span><span class="pill">Joysticks</span><span class="pill">Flight yokes</span><span class="pill">Digital cameras</span><span class="pill">Webcams</span><span class="pill">Scientific data acquisition devices</span><span class="pill">Modems</span><span class="pill">Speakers</span><span class="pill">Telephones</span><span class="pill">Video phones</span><span class="pill">Storage (Zip drives)</span><span class="pill">Network connections</span></p>
+
+<h5>USB kaise kaam karta hai</h5>
+<p>Aaj kal har computer ke peeche ek ya zyada USB connectors hote hain. Operating system bhi USB ko support karta hai, is liye device drivers ka install karna bhi tez aur aasan hai. Kisi USB device ko jorna bas us ka connector computer ke peeche USB port mein laga dena hai.</p>
+<ul>
+<li>Agar device naya hai to operating system khud pehchan leta hai aur <strong>driver disk</strong> maangta hai.</li>
+<li>Agar pehle install ho chuka hai to computer usay active kar ke baat shuru kar deta hai.</li>
+<li>USB devices <strong>kisi bhi waqt jori aur hatai</strong> ja sakti hain.</li>
+</ul>
+<div class="grid">
+  <div class="card"><h5>"A" connector</h5><p>Computer ki taraf, yaani <strong>upstream</strong>. Kai devices ki cable mein ye pehle se lagi hoti hai.</p></div>
+  <div class="card"><h5>"B" connector</h5><p>Alag alag devices ki taraf, yaani <strong>downstream</strong>. Agar device mein cable nahi hai to usmein "B" socket hota hai.</p></div>
+</div>
+<p>Upstream aur downstream par alag connectors hone ki wajah se ghalti ka imkan hi nahi: cable ka "B" connector device mein laga dein to kaam karega, aur kisi bhi "A" connector ko kisi bhi "A" socket mein laga dein to kaam karega.</p>
+
+<div class="sum"><b>Khulasa</b><ol>
+<li>PC par ports ki mukhya qismein: Serial, Parallel aur USB.</li>
+<li>Serial port se mouse, modem wagairah jurte hain.</li>
+<li>Parallel port se printers jurte hain.</li>
+<li>USB se webcam, video phones, scanners wagairah jurte hain.</li>
+</ol></div>
+</section>
+
+<!-- ================= UNIT 3 ================= -->
+<div class="unit"><span class="n">3</span><small>Unit 3</small><h2>BIOS aur CMOS</h2><p>Computer on hote hi sab se pehle kaun sa program chalta hai, aur hardware ki settings kahan aur kaise badli jaati hain.</p></div>
+
+<section class="chap" id="u3c1">
+<header><small>Unit 3 · Chapter 1</small><h3>BIOS aur CMOS ka taaruf</h3></header>
+
+<h4>Introduction</h4>
+<p>Har motherboard mein ek khaas chip hoti hai jis mein <strong>ROM BIOS</strong> naam ka software hota hai. BIOS = <strong>Basic Input Output System</strong>.</p>
+<h5>BIOS ke chaar bunyadi kaam</h5>
+<div class="grid">
+  <div class="card"><h5>POST</h5><p>Power-On Self Test. Processor, memory, chipset, video adapter, hard disks, floppies, keyboard aur dusre ahem components ko test karta hai.</p></div>
+  <div class="card"><h5>Bootstrap loader</h5><p>Wo routine jo operating system dhoondti hai aur usay RAM mein load karti hai.</p></div>
+  <div class="card"><h5>BIOS (drivers)</h5><p>Computer se jure mukhtalif hardware components ke drivers ka majmua.</p></div>
+  <div class="card"><h5>CMOS setup</h5><p>Menu wala program jis se motherboard aur chipset settings, tareekh/waqt, passwords, disk drives aur dusri bunyadi settings configure hoti hain.</p></div>
+</div>
+<div class="co note"><b>Purane PCs ka masla</b><p>Kuch purane PCs naye hardware ke saath kaam nahi karte kyunke unke BIOS mein us hardware ki support nahi hoti. Hal: BIOS ko naye BIOS se badal dein, ya us hardware ka <strong>device driver</strong> install karein.</p></div>
+
+<h4>Bootstrap loader</h4>
+<p><strong>Definition:</strong> Wo routine jo operating system dhoondti hai aur usay load ya "boot" karti hai. Agar OS mil jaye to usay load kar ke computer ka control de deti hai.</p>
+<p>Is program mein operating system ki poori functionality nahi hoti, magar ye khaas is liye banaya jaata hai ke OS ko start karne ke liye kaafi software load kar sake. Aksar kai marahil wale boot loaders hote hain, jin mein chhote programs ek doosre ko bulate hain, aakhri program OS load karta hai. Naam "bootstrap" is muhavre se hai ke koi apne hi jute ke fite pakar kar khud ko uthaye.</p>
+<ul>
+<li>IBM PC aur compatibles par pehla stage boot loader hamesha <strong>512 bytes</strong> ka hota hai aur <code>AA55h</code> value par khatam hota hai (BIOS ye value dekh kar yaqeen karta hai ke ye sahi boot loader hai).</li>
+<li><strong>Second-stage boot loader</strong> aam tor par khud operating system nahi hota; misalein: <strong>NTLDR, LILO, GRUB</strong>. Ye OS load karta hai aur control us ko de deta hai.</li>
+</ul>
+
+<h4>Booting</h4>
+<p><strong>Booting</strong> wo bootstrapping process hai jo user ke computer on karne par operating system shuru karta hai. <strong>Boot sequence</strong> un amal ka silsila hai jo computer on hone par OS load karne ke liye karta hai.</p>
+
+<div class="tool">
+  <b class="t">Tool: Boot sequence (har step par click karein)</b>
+  <div class="boot" id="boot">
+    <button type="button" class="on"><i>1</i><div><strong>BIOS MBR dhoondta hai</strong><span class="why">ROM mein rakha BIOS wo program chalata hai jo disk drives mein <strong>MBR</strong> (Master Boot Record) dhoondta hai.</span></div></button>
+    <button type="button"><i>2</i><div><strong>MBR ka boot loader chalta hai</strong><span class="why">MBR mein jo program milta hai wo us <strong>OS ka khaas boot loader</strong> hota hai jo boot hona hai.</span></div></button>
+    <button type="button"><i>3</i><div><strong>Boot loader OS dhoondta hai</strong><span class="why">Boot loader <strong>operating system dhoondta hai</strong> aur hardware (memory, disk wagairah) ko OS shuru karne ke liye tayyar karta hai.</span></div></button>
+    <button type="button"><i>4</i><div><strong>OS khud ko shuru karta hai</strong><span class="why">OS apni initialization mukammal karta hai, optional services aur device drivers chalata hai, tab ja kar machine aam input par jawab dene lagti hai.</span></div></button>
+  </div>
+  <div class="out ok" id="bootNote">Aam PC taqreeban <strong>1 minute</strong> mein boot hota hai (is mein se lagbhag 15 second shuruati boot loaders aur baqi OS load karne wale loader ke).</div>
+</div>
+<p>Network boot mein (jahan machine diskless ho sakti hai) sequence wohi hota hai, magar BIOS <strong>network card ke ROM</strong> mein hota hai aur network se boot loader laata hai. Boot process tab mukammal samjha jaata hai jab computer user se interact karne ya aam applications chalane ke qabil ho jaye.</p>
+<div class="co eg"><b>Misaal</b><p>Bare servers ko saari services start karne mein kai minute lag sakte hain, is liye wo kuch services pehle aur kuch baad mein start karte hain. Embedded systems (jaise TV) ko lagbhag foran boot hona parta hai, is liye unka poora OS ROM ya flash memory mein hota hai.</p></div>
+
+<div class="sum"><b>Khulasa</b><ol>
+<li>BIOS = Basic Input Output System.</li>
+<li>BIOS ke chaar components hain.</li>
+<li>Computer ke start hone ke marahil ko booting sequence kehte hain.</li>
+<li>Bootstrap loader wo program hai jo OS ka kuch hissa hard disk se kheench laata hai.</li>
+<li>Bootstrap loader multistage hota hai.</li>
+<li>BIOS mein low-level routines hote hain jo seedha hardware se baat karte hain.</li>
+</ol></div>
+</section>
+
+<section class="chap" id="u3c2">
+<header><small>Unit 3 · Chapter 2</small><h3>BIOS ki features aur configuration</h3></header>
+
+<h4>BIOS ki features</h4>
+<h5>Standard BIOS features</h5>
+<p>Tareekh aur waqt, Floppy Disk Drive, VGA/EGA, HALT aur IDE.</p>
+<h5>Advanced BIOS features</h5>
+<div class="tw"><table>
+<tr><th>Option</th><th>Kya karta hai</th></tr>
+<tr><td>Virus Program</td><td>Startup par hard drive scan kar ke masle se khabardar karta hai. Chahein to on/off karein.</td></tr>
+<tr><td>Cache</td><td>System ko cache memory istemal karne deta hai.</td></tr>
+<tr><td>Quick POST</td><td>Kuch tests chhor kar BIOS ko tez boot karwata hai.</td></tr>
+<tr><td>Boot Sequence</td><td>Tay karta hai ke bootable information kis tarteeb se dhoondi jaye.</td></tr>
+<tr><td>Swap Floppy Drives</td><td>Do floppy drives hon aur A, B letters aapas mein badalne hon to.</td></tr>
+<tr><td>Fast A20 Gate</td><td>Computer ki speed barhata hai.</td></tr>
+<tr><td>Typematic Rate Settings</td><td>Keyboard ka key dabaye rakhne par screen par harf kitni tezi se dohrata hai.</td></tr>
+<tr><td>Boot Numlock</td><td>Boot par Num Lock ki halat.</td></tr>
+<tr><td>CPU Serial Number</td><td>Intel CPUs ka serial number batata hai.</td></tr>
+<tr><td>Video BIOS Shadow</td><td>Video BIOS ko RAM mein copy kar ke chalana.</td></tr>
+</table></div>
+<h5>Advanced Chipset settings</h5>
+<p>Is hisse ko chherne ki aam tor par zarurat nahi parti. Jo options hote hain: <span class="pill">Chipset Special Features</span><span class="pill">L2 Cache Size</span><span class="pill">DRAM Parity Checking</span><span class="pill">DRAM Parity/ECC Mode</span><span class="pill">DRAM Clock Control</span><span class="pill">DRAM Frequency</span><span class="pill">AGP Mode</span><span class="pill">AGP Aperture</span></p>
+<h5>Baqi sections</h5>
+<div class="grid">
+  <div class="card"><h5>Power Management</h5><p>Naazuk tweaking ke liye hai. Abhi (aur shayad hamesha) default par chhor dein.</p></div>
+  <div class="card"><h5>Integrated Peripherals</h5><p>Jo ports istemal karne hain unhein enable karein, baqi disable. Ismein: IDE ports, USB, Serial &amp; Parallel ports, motherboard integrated hardware aur expansion card hardware.</p></div>
+  <div class="card"><h5>PnP/PCI Configuration</h5><p>"Plug-n-Play" aur PCI bus ke pehlu control karta hai. Do options par tawajjoh dein: <strong>PnP OS Installed</strong> aur <strong>Reset Configuration Data</strong>.</p></div>
+  <div class="card"><h5>PC Health</h5><p>Bunyadi cheezein dekhta hai: voltage levels, fan speed, processor ka andruni temperature. Kuch versions mein wo temperature bhi set kar sakte hain jis par computer khud band ho jaye.</p></div>
+  <div class="card"><h5>SoftMenu / Frequency-Voltage Control</h5><p>"Jumperless" motherboards ke liye: voltage, CPU multiplier aur system bus speed ki settings. Overclock karne walon ke kaam ki jagah hai (abhi ke liye mashwara nahi).</p></div>
+  <div class="card"><h5>Defaults</h5><p>Kai BIOS versions mein kuch clicks se saari default settings lag jaati hain. "Fail-safe" aur "Optimized" defaults bhi ho sakte hain.</p></div>
+</div>
+
+<h4>Passwords</h4>
+<p>Kai BIOS versions mein password ka section hota hai. Password rakhein to usay <strong>kisi mehfooz jagah likh kar</strong> rakhein. Agar bhool gaye to poora BIOS lock ho jata hai aur computer sirf poora BIOS reset karne ke baad hi chalega.</p>
+<div class="grid">
+  <div class="card"><h5>System Password</h5><p>Ghair mujaz logon ko system istemal karne se rokta hai.</p></div>
+  <div class="card"><h5>CMOS Setup Password</h5><p>Sirf system administrator ko users ke liye system configuration set karne deta hai.</p></div>
+</div>
+<div class="term"><span class="d">Password set karne par:</span>
+Enter New Password   :<span class="p">*******</span>
+Retype New Password  :<span class="p">*******</span>
+New password installed, press any key to continue.</div>
+
+<h4>BIOS ke zariye system ki configuration</h4>
+<p>Hardware configuration jo <strong>CMOS</strong> mein store hoti hai, aap badal sakte hain. BIOS ko kaam karne ke liye mukhtalif parameters chahiye hote hain, jo CMOS RAM ke mahaz <strong>64 bytes</strong> mein hamesha ke liye save hote hain. CMOS ko ek chhoti battery se bijli milti hai, is liye PC band hone ke baad bhi content nahi mitta. Ye memory pehle clock chip ka hissa thi, ab ek highly integrated IC ka hissa hai.</p>
+<p>PC ki performance CMOS settings se bohat mutassir hoti hai: RAM kitni tezi se parhi jaye, memory cache aur CPU cache enabled hain ya nahi, PCI bus apne adaptor cards se kitni tezi se baat kare, wagairah. Disk drive aur memory ki configuration bhi CMOS setup mein dena zaroori hai. Istisna: <strong>SCSI drives</strong> jin ke adaptor cards ke apne BIOS hote hain. Kai systems mein floppy a: ko b: bhi banaya ja sakta hai.</p>
+
+<div class="co note"><b>CMOS setup ki screen (misaal)</b><p>Phoenix-Award BIOS ke main menu mein ye cheezein hoti hain (har manufacturer ki alag ho sakti hain): Standard CMOS Features, Advanced BIOS Features, Advanced Chipset Features, Integrated Peripherals, Power Management Setup, PnP/PCI Configurations, PC Health Status, Frequency/Voltage Control, Load Fail-Safe Defaults, Load Optimized Defaults, Set Supervisor Password, Set User Password, Save &amp; Exit Setup, Exit Without Saving. Keys: <code>Esc</code> Quit, <code>F10</code> Save &amp; Exit, <strong>arrow keys</strong> se select.</p></div>
+
+<h4>CMOS setup mein kaise dakhil hon?</h4>
+<p>BIOS Setup Utility <strong>boot hote waqt</strong> ek khaas key dabane se khulti hai. Aaj ke tez computers jaldi boot hote hain (Microsoft ke "Rapid Booting" mein 7 second mein), is liye key bilkul sahi waqt par dabani parti hai. Is mein keyboard ka <strong>Pause</strong> button (upar right corner) madad kar sakta hai.</p>
+<p>Har manufacturer ki alag key ho sakti hai: <span class="pill">F1</span><span class="pill">F2</span><span class="pill">F8</span><span class="pill">F10</span><span class="pill">DEL</span><span class="pill">Alt</span><span class="pill">Ctrl</span> ya koi aur. BIOS ka entrance page screen par sirf aik do second ke liye nazar aata hai, aksar neeche left corner mein likha hota hai. Pehchanne ke liye ek do baar boot karna par sakta hai.</p>
+
+<h4>Configuration ke aam usool</h4>
+<p>Ye BIOS ki <strong>initial configuration</strong> hai, is liye conservative rahein: jahan tak mumkin ho <strong>sirf default settings</strong> istemal karein. Mouse ya keyboard (Enter, Escape, arrow keys) dono se selection kar sakte hain. BIOS Help aam tor par <code>Alt+H</code> se.</p>
+
+<h5>Standard CMOS Setup: yaqeeni banayein ke</h5>
+<ol class="steps">
+<li>Tareekh aur waqt sahi hain.</li>
+<li>Floppy Disk Drive <strong>1.44 MB, 3.5 inch</strong> par set hai.</li>
+<li>Video <strong>VGA/EGA</strong> par set hai.</li>
+<li>HALT mein <strong>ON</strong> chunein taa ke PC baar baar reboot na ho.</li>
+<li>IDE ko <strong>Auto-Detection</strong> par set karein aur abhi IDE Auto-Detection chalayein.</li>
+</ol>
+
+<h5>Advanced BIOS: mashwara shuda settings</h5>
+<div class="tw"><table>
+<tr><th>Option</th><th>Mashwara</th></tr>
+<tr><td>Virus Program</td><td>Apni marzi se enable ya disable.</td></tr>
+<tr><td>Cache</td><td>Enable. Agar ho to ECC Error Checking bhi enable.</td></tr>
+<tr><td>Quick POST</td><td>Agar computer zyada tar on rehta hai to disable; roz band hota hai to enable.</td></tr>
+<tr><td>Boot Sequence</td><td>OS installation CD se install karna ho to CD-ROM pehle, hard drive doosre, A: teesre number par. Agar System Boot floppy par hai to A: pehle, hard drive doosre, CD-ROM teesre.</td></tr>
+<tr><td>Swap Floppy Drives</td><td>Aam tor par disable. Sirf do floppy drives hon aur A/B badalni hon to enable.</td></tr>
+<tr><td>Fast A20 Gate</td><td>Default par chhor dein.</td></tr>
+<tr><td>Typematic Rate Settings</td><td>Disable.</td></tr>
+<tr><td>Boot Numlock</td><td>Enable.</td></tr>
+<tr><td>CPU Serial Number</td><td>Privacy chahne walay disable karte hain.</td></tr>
+<tr><td>Video BIOS Shadow</td><td>Disable ya default.</td></tr>
+</table></div>
+
+<h5>Advanced Chipset: mashwara shuda settings</h5>
+<div class="tw"><table>
+<tr><th>Option</th><th>Mashwara</th></tr>
+<tr><td>Chipset Special Features</td><td>(Agar ho) Disable.</td></tr>
+<tr><td>L2 Cache Size</td><td>(Agar ho) apne external cache ke size ke barabar.</td></tr>
+<tr><td>DRAM Parity Checking</td><td>Sirf parity memory ho to enable.</td></tr>
+<tr><td>DRAM Parity/ECC Mode</td><td>Jo istemal ho wo chunein.</td></tr>
+<tr><td>DRAM Clock Control</td><td>System bus ki speed par set karein (default hi theek).</td></tr>
+<tr><td>DRAM Frequency</td><td>Apni memory ki speed par (jaise 166).</td></tr>
+<tr><td>AGP Mode</td><td>"Auto" (agar ho), warna default.</td></tr>
+<tr><td>AGP Aperture</td><td>Graphics ke liye memory space; 64 MB aam tor par theek hai.</td></tr>
+</table></div>
+<div class="co warn"><b>Ehtiyat</b><p>In settings ko wohi badle jo jaanta ho ke wo kya kar raha hai. Ghalat setting nuqsan pahuncha sakti hai. Aksar behtar hai ke inhein pehli boot ke liye (aur shayad hamesha) na chherein.</p></div>
+
+<h5>Integrated Peripherals aur baqi</h5>
+<ul>
+<li><strong>IDE Ports:</strong> agar dono istemal honge to enable. Device options AUTO par. IDE pre-fetch aur IDE HDD Block Mode tab enable karein jab interface/hard drive support kare (aksar karte hain).</li>
+<li><strong>USB:</strong> istemal ho to enable. <strong>Serial &amp; Parallel Ports:</strong> istemal ho to enable. Parallel port mode ECP, EPP ya dono; pata na ho to default.</li>
+<li><strong>Motherboard Integrated Hardware:</strong> agar jumpers se control nahi hota to video, sound ya network hardware enable ya disable karein.</li>
+<li><strong>Expansion Card Hardware:</strong> agar aap expansion card laga rahe hain aur motherboard par bhi wohi option hai, to motherboard wala <strong>disable</strong> karein.</li>
+<li><strong>PnP OS Installed:</strong> Enable ("Yes"), taa ke Plug-n-Play programs chal saken.</li>
+<li><strong>Reset Configuration Data:</strong> aam tor par Disabled. Agar pichli reconfiguration se OS boot hone ke qabil nahi raha to Enable karein; exit par ESCD (Extended System Configuration Data) reset ho jata hai.</li>
+<li><strong>SoftMenu / Frequency-Voltage:</strong> sab kuch default ya AUTO par.</li>
+</ul>
+
+<h5>Khatam karne ke liye (To Finish)</h5>
+<ol class="steps">
+<li><strong>Save</strong> par click karein.</li>
+<li>Yaqeeni banayein ke O/S installation disk (System Boot ke saath) CD-ROM drive mein ya floppy system boot disk drive A: mein hai.</li>
+<li>BIOS Setup Utility se bahar nikal jayein; machine khud reboot ho jaayegi.</li>
+<li>Aap ne BIOS configuration mukammal kar li.</li>
+</ol>
+
+<div class="sum"><b>Khulasa</b><ol>
+<li>CMOS menu wala program hai jo BIOS ko configure karta hai.</li>
+<li>CMOS mein mukhtalif items hote hain jin se system ka rawayya tay hota hai.</li>
+<li>BIOS ko bijli motherboard par maujood battery se milti hai.</li>
+<li>CMOS se system booting ke dauran password set kiya ja sakta hai.</li>
+</ol></div>
+</section>
+
+<!-- ================= UNIT 4 ================= -->
+<div class="unit"><span class="n">4</span><small>Unit 4</small><h2>Operating Systems</h2><p>Hard disk ko tayyar karna, DOS aur Windows install karna, aur software ke zariye masail dhoondna.</p></div>
+
+<section class="chap" id="u4c1">
+<header><small>Unit 4 · Chapter 1</small><h3>DOS aur Windows jaise operating systems install karna</h3></header>
+
+<h4>Introduction</h4>
+<p><strong>Operating system</strong> wo software hai jo users ko computer istemal karne deta hai. OS ke baghair computer mahaz ek machine hai jo koi kaam nahi kar sakti.</p>
+<p class="eg"><strong>Misaal:</strong> DOS, Windows 9x, Linux, OS/2, Solaris.</p>
+<p>Is chapter mein DOS aur Windows 98 install karna seekhein ge. <strong>DOS</strong> sab se purane operating systems mein se hai aur agli generation (jaise Windows 9x) ki bunyad hai.</p>
+
+<h4>Hard disk partitions</h4>
+<div class="co warn"><b>Warning</b><p>Ye tareeqa <strong>naye hard disk</strong> ke liye hai. Agar aap aisi hard disk par ye karenge jis mein data hai, to poori disk <strong>mit jayegi aur data wapas nahi aayega</strong>.</p></div>
+<p>Naye hard disk ko istemal se pehle <strong>partition</strong> aur <strong>format</strong> karna parta hai. Windows 98 ya ME ki boot disk mein is ka software maujood hai: <code>FDISK.EXE</code> aur <code>FORMAT.COM</code> bootable floppy ki zaroori files hain.</p>
+<ol class="steps">
+<li>PC ko Windows boot disk se boot karein. BIOS mein boot sequence aise set karein ke <strong>floppy pehle</strong> dekhi jaye.</li>
+<li>Windows boot disk menu aayega. <strong>CD-ROM support ke baghair</strong> start karne wala option chunein (abhi zarurat nahi). Aap MS-DOS prompt <code>A:</code> par pahunch jayenge.</li>
+<li><code>A:</code> prompt par <code>fdisk</code> likhein.</li>
+</ol>
+<div class="term"><span class="d">FDISK ka pehla sawal:</span>
+Your computer has a disk larger than 512 MB. ...
+Do you wish to enable large disk support (Y/N) ........ ?  [<span class="p">Y</span>]</div>
+<p><strong>"Y"</strong> chunein (large disk support enable). Phir FDISK ka main menu aayega:</p>
+<div class="term"><span class="d">Microsoft Windows 98 Fixed Disk Setup Program</span>
+FDISK Options
+Current fixed disk drive: 1
+
+Choose one of the following:
+  1. Create DOS partition or Logical DOS Drive
+  2. Set active partition
+  3. Delete partition or Logical DOS Drive
+  4. Display partition information
+  5. Change current fixed disk drive
+
+Enter choice: [<span class="p">1</span>]       Press Esc to exit FDISK</div>
+<p>Option <strong>1</strong> chunein. Naya menu:</p>
+<div class="term">Create DOS Partition or Logical DOS Drive
+  1. Create Primary DOS Partition
+  2. Create Extended DOS Partition
+  3. Create Logical DOS Drive(s) in the Extended DOS Partition
+Enter choice: [<span class="p">1</span>]</div>
+<ol class="steps">
+<li>Option 1 (<strong>Primary DOS Partition</strong>) chunein. FDISK drive check karega aur puchega ke maximum available size istemal karni hai aur partition active karni hai? Aasani ke liye ek bari partition banayen: <strong>"Y"</strong>.</li>
+<li>Partition ban jane par aap ki drive <strong>C:</strong> kehlayegi. <code>Esc</code> daba kar menu par wapas aayein, phir dobara <code>Esc</code> se FDISK se nikal jayein.</li>
+<li>Tabdeeli ke liye system <strong>restart</strong> karein (boot disk drive mein rehne dein).</li>
+<li>Reboot par boot disk menu se "start without CD-ROM" chunein. "Invalid media type reading drive C" ka error aaye to is marhale par theek hai kyunke disk abhi format nahi hui.</li>
+</ol>
+<div class="co eg"><b>Extended partitions ki misaal</b><p>Agar extended DOS partitions banani hon to primary partition ka size bytes mein dein, aur bachi hui jagah se extended partition mein <strong>logical drives</strong> (D:, E:, F: wagairah) banayein.</p></div>
+<ol class="steps">
+<li><code>A:</code> prompt par likhein: <code>format c:</code></li>
+<li>Message aayega: <em>"WARNING, ALL DATA ON NON-REMOVABLE DISK DRIVE C: WILL BE LOST. Proceed with Format (Y/N)?"</em> Naye hard disk mein data nahi, is liye fikr na karein: <strong>"Y"</strong>.</li>
+<li>Progress indicator dikhega. Waqt disk ki size aur speed par hai, taqreeban <strong>5 se 30 minute</strong>.</li>
+<li>Format mukammal hone par system <strong>reset</strong> karein. Ab aap operating system install karne ke liye tayyar hain.</li>
+</ol>
+
+<h4>DOS ki installation</h4>
+<ol class="steps">
+<li><code>Z:\INSTALL</code> chalayein.</li>
+<li>Copyright agreement parhein.</li>
+<li><strong>OK</strong> par click karein.</li>
+<li>Wo hard drive chunein jis par program install karna hai, <strong>NEXT</strong>.</li>
+<li>Directory chunein (default <code>\BIBLE</code>), <strong>NEXT</strong>.</li>
+<li><strong>INSTALL DATA FILES TO HARD DRIVE</strong> par click karein, <strong>NEXT</strong>.</li>
+<li><strong>MS-DOS</strong> par click karein, <strong>NEXT</strong>.</li>
+<li>Jo versions install karne hon unhein highlight kar ke right-arrow par click karein. Har version ke liye dohrayein. Scroll bar se sab versions dekhein. DOS mein zyada se zyada <strong>nau (9) versions</strong> ki ijazat hai. Phir <strong>NEXT</strong>.</li>
+<li>Yahi tareeqa <strong>Notes</strong> ke liye dohrayein (zyada se zyada <strong>aath (8) Notes</strong>). <strong>NEXT</strong>.</li>
+<li>Yahi tareeqa <strong>Topics</strong> ke liye dohrayein. <strong>NEXT</strong>.</li>
+<li><strong>FINISH</strong> par click kar ke installation mukammal karein.</li>
+</ol>
+
+<h4>Windows 98 ki installation</h4>
+<h5>Pehle ye cheezein chahiye</h5>
+<p><span class="pill">Windows 98 CD</span><span class="pill">CD-ROM access wala computer</span></p>
+<h5>Install ke liye BIOS configure karna</h5>
+<p>BIOS tak pahunchne ka tareeqa apne motherboard manual ya computer ke manufacturer se maloom karein. Aam tor par boot par <code>F1</code>, <code>F2</code>, <code>F8</code>, <code>F10</code> ya <code>DEL</code> key. Bahar nikalne se pehle settings <strong>save</strong> karna na bhoolein. Agar BIOS mein nahi jaana to bas CD-ROM drive mein CD daal kar computer reboot kar ke dekh lein. Windows 98 install karne ka yehi mashwara shuda tareeqa hai.</p>
+
+<h5>Setup shuru karna: 39 steps</h5>
+<p>Ye steps kai marahil mein baante ja sakte hain. Niche saare steps tarteeb se hain.</p>
+<details open><summary>Marhala 1: Boot aur tayyari (steps 1 se 9)</summary><div class="in"><ol class="steps">
+<li>CD daalein aur PC restart karein.</li>
+<li>Windows 98 Setup Menu aaye to option <strong>2</strong> (Boot from CD-ROM) chunein.</li>
+<li>Windows 98 Startup Menu aaye to option <strong>1</strong> (Start Windows 98 Setup from CD-ROM).</li>
+<li>Computer kuch drivers install karega, thora intezar karein.</li>
+<li>Neeli (blue) setup screen aaye to <strong>Enter</strong> dabayein.</li>
+<li>Setup system tests karna chahta hai, bas <strong>Enter</strong> dabayein.</li>
+<li><strong>ScanDisk</strong> chalega, intezar karein.</li>
+<li>ScanDisk ke baad Windows kuch ahem files copy karega.</li>
+<li>Graphical Windows 98 Setup screen aayegi.</li>
+</ol></div></details>
+<details><summary>Marhala 2: Setup wizard aur copying (steps 10 se 18)</summary><div class="in"><ol class="steps" style="counter-reset:s 9">
+<li><strong>Continue</strong> par click karein aur setup wizard ke mukammal hone ka intezar karein.</li>
+<li>Pooche ga Windows kis directory mein install ho; default theek hai, <strong>Next</strong>.</li>
+<li>Setup directory tayyar karega, intezar karein.</li>
+<li>Setup installed components aur disk space check karega.</li>
+<li>Install ki qism puchhega: desktop ho to <strong>Typical</strong>, laptop ho to <strong>Portable</strong>.</li>
+<li>Components install karne ka puche to <strong>Continue</strong>.</li>
+<li>Network card mile to network information screen aayegi: zaroori maloomat likh kar <strong>Next</strong>.</li>
+<li>Apne mulk ki settings chunein (default United States).</li>
+<li>Ab asal hissa: Setup <strong>files copy</strong> karega. Is mein kaafi waqt lagta hai, sabar karein.</li>
+</ol></div></details>
+<details><summary>Marhala 3: Pehla restart aur user info (steps 19 se 28)</summary><div class="in"><ol class="steps" style="counter-reset:s 18">
+<li>Files copy hone ke baad Windows khud restart hoga.</li>
+<li>Windows 98 Startup Menu aaye to option <strong>1</strong> (Boot from Hard Disk).</li>
+<li>Windows 98 ki booting screen aayegi.</li>
+<li>User information puchhi jayegi, likh kar <strong>Continue</strong>.</li>
+<li>License Agreement parhein. Agree hon to <strong>"I accept the Agreement"</strong> par click kar ke Next. Agar "I don't accept" chunein to setup khatam ho jayega.</li>
+<li>Apna <strong>product key</strong> likhein, Next.</li>
+<li>Phir <strong>Finish</strong> par click karein.</li>
+<li>Setup hardware aur settings finalize karega.</li>
+<li>Setup <strong>Plug and Play</strong> devices install karega.</li>
+<li>Computer khud restart hoga.</li>
+</ol></div></details>
+<details><summary>Marhala 4: Baqi restarts aur Desktop (steps 29 se 39)</summary><div class="in"><ol class="steps" style="counter-reset:s 28">
+<li>Startup Menu mein option <strong>1</strong> (Boot from Hard Disk).</li>
+<li>Windows doosri baar boot hoga.</li>
+<li>Setup hardware install karna jari rakhega.</li>
+<li>Setup aap se <strong>waqt, tareekh aur time zone</strong> puchhega. Chun kar <strong>Apply</strong> phir <strong>OK</strong>.</li>
+<li>Windows items ka setup jari rahega.</li>
+<li>Computer ek aur baar khud restart hoga.</li>
+<li>Startup Menu mein dobara option <strong>1</strong> (Boot from Hard Disk).</li>
+<li>Windows teesri baar boot hoga.</li>
+<li>Windows system settings update karega.</li>
+<li>Ab aap <strong>Windows Desktop</strong> par pahunch gaye!</li>
+<li>Ho sakta hai aap ko hardware drivers bhi install karne parein. Agar sab kuch theek chal raha hai to fikr ki zarurat nahi.</li>
+</ol></div></details>
+
+<div class="sum"><b>Khulasa</b><ol>
+<li>Operating system user aur computer ke darmiyan <strong>interface</strong> hai.</li>
+<li>Software ki do qismein: <strong>System software</strong> (jo system ko istemal ke qabil banata hai, jaise Windows 9x, compilers) aur <strong>Application software</strong> (jo user ke masail hal karta hai, jaise MS-Word, spreadsheet, accounting packages).</li>
+<li>OS install karne se pehle hard disk ko <code>FDISK</code> aur <code>FORMAT</code> commands se partition aur format karna parta hai.</li>
+</ol></div>
+</section>
+
+<section class="chap" id="u4c2">
+<header><small>Unit 4 · Chapter 2</small><h3>Software ke zariye troubleshooting</h3></header>
+
+<h4>Introduction</h4>
+<p><strong>Troubleshooting</strong> ka matlab masle ka <strong>source dhoondna</strong> hai. PCs ke liye kai qism ka diagnostic software maujood hai. Is mein se kuch system ke saath hi aata hai, aur wo computer component ke kai masail pehchanne mein madad deta hai.</p>
+
+<h4>POST: Power-On Self Test</h4>
+<p>POST har baar PC on karne par chalta hai. Computer start karte hi ye khud ba khud <strong>CPU, ROM, memory aur ahem peripherals</strong> jaise bunyadi components ki checking karta hai. Ye tests mukhtasar hote hain aur sakht (hard) errors pakarne ke liye banaye gaye hain. Ye motherboard ke ahem masail pakar leta hai. Agar POST ko aisa masla mile jo system ko theek chalne se roke, to boot process rok deta hai aur aksar wajah batane wala error message deta hai. Ye <strong>fatal errors</strong> kehlate hain.</p>
+<p>POST masle ki khabar <strong>teen tareeqon</strong> se deta hai:</p>
+<div class="grid">
+  <div class="card"><h5>1. Audio codes</h5><p>Beep ki awaazein (beeps ki tadaad/pattern).</p></div>
+  <div class="card"><h5>2. On-screen text messages</h5><p>Screen par likha hua error.</p></div>
+  <div class="card"><h5>3. Hexadecimal numeric codes</h5><p>Hex number ka code.</p></div>
+</div>
+
+<h4>Diagnostic software ki qismein</h4>
+<div class="grid">
+  <div class="card"><h5>Manufacturer supplied</h5><p>Manufacturer ka khaas software, tests ka ek majmua jo system ko achi tarah parkhta hai. Kabhi kabhi hard drive ki khaas partition par hota hai aur startup par chal sakta hai.</p><p class="eg"><strong>Misaal:</strong> IBM, Compaq, Hewlett-Packard, Dell.</p></div>
+  <div class="card"><h5>Peripheral diagnostic</h5><p>Kai hardware devices apne khaas functions test karne ka software saath laate hain.</p><p class="eg"><strong>Misaal:</strong> SCSI drives.</p></div>
+  <div class="card"><h5>Operating system diagnostic</h5><p>Windows 9x aur Windows NT mein aisa software shamil hai jo computer ke mukhtalif components ki performance pehchanta aur monitor karta hai.</p></div>
+  <div class="card"><h5>After-market diagnostic</h5><p>Kai companies general-purpose diagnostic software banati hain, aksar doosri system maintenance utilities ke saath ek PC software tool kit ki shakal mein.</p></div>
+</div>
+
+<h5>Windows 9x ke diagnostic tools (OS diagnostic ki misalein)</h5>
+<div class="tw"><table>
+<tr><th>Tool</th><th>Kaam</th></tr>
+<tr><td>Device Manager</td><td>System control panel se. System mein maujood devices ki types ki list dikhata hai. Har type ko kholne par asal installed hardware dikhta hai. Har entry ka properties dialog box hai jis se device configure karna, uske hardware resources dekhna aur driver update karna mumkin hai.</td></tr>
+<tr><td>System Monitor / Performance Monitor</td><td>Windows 9x ka System Monitor aur Windows NT ka System Monitor ek hi kaam karte hain: system ki performance ke khaas elements ko track kar ke <strong>graph</strong> ki shakal mein dikhate hain (jaise Kernel: Processor Usage %).</td></tr>
+<tr><td>Resource Meter</td><td>Windows 9x ke <strong>System, User aur GDI</strong> (Graphics Device Interface) resources ko musalsal monitor karta hai (jaise "System resources: 68% free").</td></tr>
+<tr><td>Microsoft System Information</td><td>Windows 98 ka behtareen program jo computer ke hardware aur software ki tafseeli information deta hai (Hardware Resources, Components, Software Environment; Windows version, RAM, free resources, drive space wagairah).</td></tr>
+</table></div>
+
+<h5>After-market diagnostic software ki misalein</h5>
+<div class="tw"><table>
+<tr><th>Software</th><th>Taaruf</th></tr>
+<tr><td>AMIDiag (AMI)</td><td>American Megatrends Inc. PC ROM BIOS software ki sab se bari companies mein se hai. AMIDiag ke reporting aur diagnostics functions PC ke lagbhag tamam hardware ko support karte hain.</td></tr>
+<tr><td>Checkit Pro</td><td>Testing ka behtareen majmua: system CPU, conventional aur expanded memory, hard aur floppy drives, video adapter aur monitor.</td></tr>
+<tr><td>Norton Utilities Diagnostics</td><td>Norton Utilities ke saath aata hai: system data ki hifazat, troubleshooting, testing aur repairing utilities ka zaroori majmua.</td></tr>
+<tr><td>Speedisk, Disk Doctor, Calibrate</td><td>Teen aur disk utilities jo hard drive diagnostics aur software-level repair mein madad karti hain.</td></tr>
+<tr><td>Micro-Scope, PC-Technician, QAPlus/FE</td><td>Kuch aur diagnostic tools.</td></tr>
+</table></div>
+
+<div class="sum"><b>Khulasa</b><ol>
+<li>Troubleshooting ka matlab masle ka source pehchanna hai.</li>
+<li>Troubleshooting ke tareeqe: POST, aur third-party general-purpose software.</li>
+</ol></div>
+</section>
+
+<!-- ================= UNIT 5 ================= -->
+<div class="unit"><span class="n">5</span><small>Unit 5</small><h2>Antivirus Software</h2><p>Virus kya hota hai, computer mein kaise ghusta hai, aur Norton jaise antivirus se kaise bachein aur system ko theek rakhein.</p></div>
+
+<section class="chap" id="u5c1">
+<header><small>Unit 5 · Chapter 1</small><h3>Viruses</h3></header>
+
+<h4>Virus kya hai?</h4>
+<p>Virus bhi ek <strong>computer program</strong> hi hai. Dusre programs ki tarah ismein bhi instructions hoti hain. Magar application ke bar aks, virus aam tor par computer ko wo kaam karne ko kehta hai jo aap nahi chahte, aur wo <strong>khud ko</strong> aap ke aur dusron ke computers mein phaila sakta hai.</p>
+<p>Virus ek nuqsandeh software hai jis ki ye khasiyat hoti hain:</p>
+<div class="grid">
+  <div class="card"><h5>Hidden (chhupa hua)</h5><p>Aam <code>DIR</code> command se nazar nahi aata.</p></div>
+  <div class="card"><h5>Self-replicating</h5><p>Khud ba khud apni copy banata hai aur dusri files aur disks ko infect karta hai.</p></div>
+  <div class="card"><h5>Delayed action</h5><p>Aap ko kafi der baad pata chalta hai ke virus lag chuka hai, hatta ke aap ke backups bhi infected ho sakte hain.</p></div>
+</div>
+<div class="co warn"><b>Virus kitna khatarnak?</b><p>Ye open networks (jaise Internet) par bohat tezi se phailte hain aur kam waqt mein arbon dollar ka nuqsan karte hain. Sab se kam nuqsan wala virus bhi jaan lewa ho sakta hai. <strong>Misaal:</strong> aspatal ke life-support system mein aisa virus jo computer ko roke aur message dikhaye jab tak koi key na dabaye, jaan lewa ban sakta hai. Virus banane wale bhi use phailne se rok nahi sakte, is liye users ko "virus-aware" hona zaroori hai.</p></div>
+
+<h4>Virus ke dakhil hone ke aam raaste</h4>
+<p>Pehla sawal ye hai: virus computer mein kaise ghusta hai? Agar aap ko jawab pata ho to in raaston ki hifazat kar ke infection se bach sakte hain.</p>
+<div class="grid">
+  <div class="card"><h5>Removable disk drives</h5><p>Floppy, CD, USB jaise drives.</p></div>
+  <div class="card"><h5>Computer networks</h5><p>Network se jure computers.</p></div>
+  <div class="card"><h5>Internet</h5><p><span class="pill">E-mail</span><span class="pill">Web pages</span><span class="pill">File Transfers (FTP)</span><span class="pill">Downloads</span><span class="pill">Newsgroups</span></p></div>
+</div>
+
+<h4>Viruses ki qismein</h4>
+<div class="grid">
+  <div class="card"><h5>Worms</h5><p>Dusre viruses se alag: ye <strong>files ko infect nahi karte</strong>. In ka sirf maqsad zyada se zyada tezi se doosre systems tak phailna hai. E-mails, computer networks aur Internet IRC channels ke zariye replicate hote hain, aur PC ki <strong>memory ke andar</strong> bhi.</p></div>
+  <div class="card"><h5>Trojan horses</h5><p>Asal mein virus nahi kehe ja sakte. Naam Yunani (Greek) kahani se hai jahan lakri ke ghode mein chhup kar sipahi Troy shehar mein dakhil hue. Trojans bhi <strong>bezarar nazar aane wale programs</strong> hote hain jo kisi bhi raaste se computer mein aate hain. Jab chalte hain (naam aur khasiyat user ko dhoka dene wali) to dusre nuqsandeh programs install kar dete hain.</p></div>
+  <div class="card"><h5>Logic bombs</h5><p>Tab hi system ko nuqsan pahunchate hain jab ek ya zyada <strong>shartein pooree hon</strong>. Replicate nahi hote, is liye virus nahi mane jaate; ye user ke actions (aksar anjaane mein copy ya execute karna) par depend karte hain.</p><p class="eg"><strong>Misaal:</strong> "agar tareekh falan din ho jaye to files mita do."</p></div>
+  <div class="card"><h5>Encrypted</h5><p>Ye virus ki category nahi balkay ek <strong>technique</strong> hai. Koi bhi virus encrypted ho sakta hai. Virus khud ko encode/encrypt kar leta hai taa ke antivirus usay aasani se na pakar sake. Kaam karne ke liye khud ko decrypt karta hai aur kaam khatam hote hi dobara encrypt kar leta hai.</p></div>
+  <div class="card"><h5>Polymorphic</h5><p>Aise viruses jo antivirus se bachne ke liye nayi technique istemal karte hain (aksar sab se mushkil se pakre jaate hain). <strong>Har infection ke saath badal jaate hain</strong>, is tarah apni bohat si alag shakal ki copies bana lete hain.</p></div>
+</div>
+
+<h4>Virus ki alamaat (Symptoms)</h4>
+<p>Aisa lag sakta hai ke aap ke computer mein virus hai, magar pakka tab pata chalta hai jab antivirus tool (jo viruses dhoondte aur khatam karte hain) usay pakre. Kuch alamaat itni wazeh hotee hain ke pehchani ja sakti hain:</p>
+<p><span class="pill b">Screen par ajeeb messages</span><span class="pill b">Computer ka slow hona</span><span class="pill b">Files ki properties ya size badalna</span><span class="pill b">Files/folders ghayab hona</span><span class="pill b">Computer start na hona</span><span class="pill b">Infected disk ka content kho jana</span></p>
+
+<h4>Virus kya infect karte hain?</h4>
+<p>Viruses ke bare targets <strong>storage devices</strong> (hard aur floppy disks) par maujood files hain. Ye <strong>program files</strong> ko nishana banate hain. Program asal mein ek aisi file hai jis ka extension <code>EXE</code> ya <code>COM</code> hota hai.</p>
+<ul>
+<li>Aise viruses bhi hain jo non-program files ko infect karte hain. In documents mein <strong>macros</strong> hote hain, yaani chhote programs jo user kuch file types mein shamil kar sakta hai.</li>
+<li>Storage devices khud bhi nishane par hote hain, khaas tor par <strong>boot sector</strong>. Jahan files rakhi jaati hain us jagah par hamla karne se un mein maujood saari information mutassir hoti hai.</li>
+</ul>
+
+<h4>Antivirus software ka aghaaz</h4>
+<ul>
+<li>Virus experts ne <strong>40,000 se zyada</strong> viruses aur unki qismein record ki hain, magar sirf taqreeban <strong>200</strong> hi aam taur par phail rahe hote hain (kitab ke mutabiq). Zyadatar viruses sirf waqt zaaya karne wale hote hain; nuqsan karne wale (destructive payload) asal khatra hain.</li>
+<li>Viruses <strong>1960s</strong> ki shuruat se hain, yaani computers ke aaghaz se, lekin 1980s tak ye zyadatar lab ke namoone the, jo researchers ne control mahaul mein chhode.</li>
+<li>1980s mein jab pehli baar bahar aaye to <strong>"sneaker net"</strong> (floppy disks ko log hath se le jaa kar computers mein lagate the) ke zariye aahista phailte the. Internet aur e-mail ne unka phailna tez kar diya.</li>
+<li>Kitab ke mutabiq, e-mail se phailne wale viruses (jaise <strong>MelissaLoveLetter</strong>) ne aam user ke virus se takrane ka imkan bohat barha diya. E-mail viruses <strong>81 percent</strong> infections ke zimmedar thay aur kuch hi minutes mein hazaron machines infect kar sakte thay.</li>
+</ul>
+
+<h4>Virus se bachne ke 9 tareeqe</h4>
+<ol class="steps">
+<li>Kisi <strong>anjaan, shak wale ya na-qabil-e-aitbar</strong> source ki e-mail ke attachments na kholein.</li>
+<li>Jab tak pata na ho ke attachment kya hai, na kholein, <strong>chahe dost ki taraf se hi kyun na lage</strong>. Kuch viruses khud ko e-mail se phaila lete hain. Behtar hai ke us se pooch kar confirm karein ke us ne wakai bheja.</li>
+<li>Agar subject line <strong>mushkook ya ghair mutawaqqe</strong> ho to attachment na kholein. Kholna zaroori ho to pehle file ko hard drive mein save karein (aur scan karein).</li>
+<li><strong>Chain emails aur junk (spam) emails</strong> delete kar dein. Un ka jawab na dein, aage forward na karein. Ye network ko jam karti hain.</li>
+<li><strong>Ajnabiyon</strong> se files download na karein.</li>
+<li>Internet se files download karte waqt <strong>ehtiyat</strong> karein. Source mustanad ho aur download site par antivirus ne files check ki hon. Shak ho to download na karein, ya floppy par download kar ke apne antivirus se test karein.</li>
+<li>Antivirus software ko <strong>baqaaida update</strong> karte rahein. Har mahine 500 se zyada viruses dariyaft hote hain. Kam az kam virus signature files update hone chahiye; kabhi kabhi scanning engine bhi.</li>
+<li>Apni files ka <strong>regular backup</strong> lein, aur backup copy aisi jagah rakhein jo aap ki kaam ki files se alag ho, behtar hai computer par na ho.</li>
+<li>Shak ho to <strong>kholein, download karein ya chalayein nahi</strong>. Na chalana sab se ahem ehtiyat hai. Apne OS, web browser aur email ke updates ke liye vendors se rabta karte rahein (misaal: Microsoft ka security section).</li>
+</ol>
+
+<div class="sum"><b>Khulasa</b><ol>
+<li>Virus ek <strong>self-replicating code</strong> hai jo bohat nuqsan kar sakta hai.</li>
+<li>Qismein: worms, Trojans, logic bombs, encrypted aur polymorphic.</li>
+<li>Alamaat: file size mein tabdeeli, system slow hona, files ghayab hona, system start na hona.</li>
+<li>Dakhil hone ke aam raaste: infected floppies, Internet, Compact Disks.</li>
+<li>Viruses aam tor par storage devices aur un par maujood files ko infect karte hain.</li>
+</ol></div>
+</section>
+
+<section class="chap" id="u5c2">
+<header><small>Unit 5 · Chapter 2</small><h3>Norton Antivirus ki installation</h3></header>
+
+<h4>Introduction</h4>
+<p>Antivirus program se <strong>scan</strong> ko apni preventive maintenance ka baqaaida hissa banana achhi baat hai. Microsoft aur IBM MS-DOS aur PC-DOS ke liye antivirus dete hain, lekin agar aap Windows 9x ya Windows NT chalate hain to scan ke liye <strong>third-party program</strong> lena parta hai.</p>
+<p class="eg"><strong>Misaal:</strong> <span class="pill">Norton</span><span class="pill">e-Scan</span><span class="pill">AVG</span><span class="pill">McAfee</span><span class="pill">PC-cillin</span></p>
+<ul>
+<li>Jo bhi program istemal karein, <strong>waqtan fawaqtan</strong> scan karein, khaas tor par hard disk ka <strong>backup lene se pehle</strong>. Is se pehle hi viruses pakar mein aa jayenge aur wo phail kar tabahi nahi macha payenge.</li>
+<li>Aisi company ka antivirus chunein jo <strong>regular updates</strong> deti ho, kyunke naye viruses musalsal aate rehte hain.</li>
+</ul>
+
+<h4>Shuru karne se pehle</h4>
+<ul>
+<li>Agar computer mein koi antivirus pehle se install hai to usay <strong>uninstall</strong> karein, Norton AntiVirus samet (<strong>Start → Settings → Control Panel → Add/Remove Programs</strong>).</li>
+<li>Installation ke dauran reference ke liye ye document print kar lein.</li>
+<li>Software install karne se pehle ye window band kar dein.</li>
+<li>Baqi saare programs band kar dein.</li>
+</ul>
+
+<h4>Norton AntiVirus install aur configure karna</h4>
+<p>Ye instructions aap ke Windows ke version ke hisab se thori mukhtalif nazar aa sakti hain.</p>
+<ol class="steps">
+<li><strong>Norton Anti-Virus installer</strong> shuru karein. "Welcome to the Norton AntiVirus Corporate Edition Setup program" screen par <strong>Next</strong> par click karein.</li>
+<li><strong>License Agreement</strong> ki shartein maan kar ("I accept the terms in the license agreement") <strong>Next</strong>.</li>
+<li><strong>Mail Snap-In Selection:</strong> jo snap-ins install karne hon chunein (jaise Microsoft Exchange/Outlook, Lotus Notes), <strong>Next</strong>.</li>
+<li><strong>Destination Folder:</strong> wo jagah jahan Norton AntiVirus install hoga (default <code>c:\Program Files\Norton AntiVirus\</code>). <strong>Next</strong>.</li>
+<li><strong>Network Setup Type:</strong> <strong>Unmanaged</strong> chunein (jab computer Norton AntiVirus chalane wale servers se juda na ho, jaise ghar ka computer). Managed tab hota hai jab computer aise servers se juda ho. <strong>Next</strong>.</li>
+<li><strong>Initial Settings:</strong> <strong>File System Realtime Protection</strong> box par tick lagayein aur <strong>Next</strong>. Ye system ko khud ba khud viruses par nazar rakhne ke liye configure karta hai.</li>
+<li><strong>Ready to Install the Program:</strong> <strong>Install</strong> par click karein.</li>
+<li>Agar file copy aur installation ke baad <strong>Old Virus Definition File</strong> window aaye (definition file 30 din se purani) to <strong>Close</strong> karein.</li>
+<li><strong>Technical Support</strong> window parh kar <strong>Next</strong>.</li>
+<li><strong>LiveUpdate</strong> window parh kar <strong>Next</strong>. (Naye viruses roz aate hain, is liye virus definitions ko current rakhna sab se zaroori hai. Installation ke aakhir mein LiveUpdate zaroor chalayein.)</li>
+<li><strong>Run Options:</strong> "Run LiveUpdate after installation" ka faisla. Agar computer ka <strong>permanent ya semi-permanent high-speed connection</strong> hai to box <strong>check</strong> karein. Agar aap <strong>modem dial-up</strong> se Internet se jurte hain to box <strong>clear</strong> karein, taa ke restart ke baad aap pehle Internet se connect kar ke manually LiveUpdate chala saken. <strong>Next</strong>.</li>
+<li><strong>Finish</strong> par click karein ("InstallShield Wizard Completed").</li>
+<li>Is marhale par computer <strong>restart</strong> karne ka mashwara hai; <strong>Yes</strong> par click karein.</li>
+<li>Restart ke baad agar "Old Virus Definition File" dialog box aaye to <strong>Close</strong> karein.</li>
+</ol>
+
+<h4>LiveUpdate se virus definitions update karna</h4>
+<ol class="steps" style="counter-reset:s 14">
+<li>Agar computer pehle se Internet se juda hai aur <strong>Virus Protection Update</strong> khud shuru ho gaya ho to seedha "Internet chun kar Next" wale step par jayein.</li>
+<li>Yaqeeni banayein ke computer Internet se juda hai, phir Windows System Tray (Desktop ke neeche right, ghari ke qareeb) mein <strong>Norton AntiVirus Corporate Edition</strong> ke peele shield icon par double-click karein.</li>
+<li>Jo <strong>Norton AntiVirus Corporate Edition</strong> window khule us mein <strong>LiveUpdate</strong> button dabayein.</li>
+<li>Jo <strong>LiveUpdate</strong> window aaye us mein <strong>Internet</strong> chun kar <strong>Next</strong> par click karein.</li>
+<li>LiveUpdate mukammal hone par "Virus Protection Updated" window mein <strong>Finish</strong> par click karein.</li>
+</ol>
+
+<h4>Khud ba khud virus scans schedule karna</h4>
+<ol class="steps" style="counter-reset:s 19">
+<li>System Tray mein Norton AntiVirus Corporate Edition ke peele shield icon par <strong>double-click</strong> karein.</li>
+<li>Jo window aaye us mein <strong>Scheduled Scans</strong> ke neeche <strong>New Scheduled Scan</strong> par click karein. <strong>Name</strong> aur <strong>Description</strong> likhein (jaise Name: <em>Daily Scan</em>, Description: <em>Start this scan at noon every day</em>) aur <strong>Next</strong>.</li>
+<li>Scan ka waqt aisa rakhein jab aap ka computer on hone ka imkan ho (jaise lunch time), <strong>Daily / Weekly / Monthly</strong> chun kar <strong>Next</strong>. (Misaal: Daily, 12:00 PM.)</li>
+<li>Jo drives scan karni hon unke checkboxes par tick laga kar <strong>Save</strong> karein.</li>
+<li>Jo <strong>Daily Scan</strong> job banayi wo ab bayein taraf <strong>Scheduled Scans</strong> folder ke neeche nazar aayegi.</li>
+</ol>
+
+<div class="sum"><b>Khulasa</b><ol>
+<li>Antivirus software computer ko viruses ke liye scan karne ke kaam aata hai.</li>
+<li>Aam istemal hone wale antivirus: McAfee, Norton, AVG wagairah.</li>
+</ol></div>
+</section>
+
+<section class="chap" id="u5c3">
+<header><small>Unit 5 · Chapter 3</small><h3>Antivirus patches ke zariye system ki recovery</h3></header>
+
+<h4>Patches ke automatic updates</h4>
+<p>Antivirus programs ke naye versions mein <strong>automatic update</strong> ki sahulat hoti hai. Isay istemal karne ke liye Internet se connect hon, antivirus chalayein aur <strong>Update</strong> button dabayein. Process bilkul khud-kaar hai. Kuch programs mein button dabane ki bhi zarurat nahi: Internet se jurte hi khud update ho jaate hain.</p>
+<div class="co warn"><b>Phir bhi check karein</b><p>Chahe program automatic update par ho, ye zaroor check karein ke update wakai ho raha hai. Kam az kam <strong>hafte mein ek baar</strong> antivirus kholein aur dekhein ke aakhri update ki tareekh bilkul taaza hai. Jab virus activity bohat zyada ho to automatic ke saath saath manual update bhi kar lein.</p></div>
+<h5>Update schedule karna (Norton)</h5>
+<ol class="steps">
+<li>System Tray mein Norton AntiVirus Corporate Edition ke peele shield icon par <strong>double-click</strong> karein.</li>
+<li><strong>Norton AntiVirus</strong> window mein <strong>File</strong> phir <strong>Schedule Updates...</strong> par click karein.</li>
+<li><strong>Schedule Virus Definition Updates</strong> window mein <strong>Schedule</strong> button dabayein.</li>
+<li><strong>When</strong> hisse mein din aur waqt chunein jab aap ka computer on aur Internet se juda hona chahiye (misaal: <strong>Weekly, Every Wednesday, 11:00 AM</strong>), phir <strong>OK</strong>.</li>
+<li>Dobara <strong>Schedule Virus Definition Updates</strong> window aaye to <strong>OK</strong> kar ke tabdeeli save karein.</li>
+<li><strong>Norton AntiVirus</strong> program se bahar nikal jayein.</li>
+</ol>
+
+<h4>Manually download karna</h4>
+<p>Agar automatic update ki sahulat nahi hai, ya theek se kaam nahi kar rahi (aisa hota bhi hai!), to aap ko manufacturer ki <strong>website</strong> se virus updates download karne parenge.</p>
+<ul>
+<li><strong>Norton AntiVirus</strong> users: <code>www.symantec.com</code></li>
+<li><strong>McAfee VirusScan</strong> users: <code>www.mcafee.com</code></li>
+</ul>
+<p>Apne operating system ke liye sab se naya update dhoondein aur apne computer par download karein. Agar <strong>Open</strong> ya <strong>Save</strong> ka ikhtiyar mile to Open chunein, file khud install ho jayegi. Agar <strong>Save</strong> kiya hai to file dhoondh kar us par double-click kar ke installation mukammal karni hogi.</p>
+
+<h4>Viruses ke liye scan karna</h4>
+<ol class="steps">
+<li><strong>Start</strong> button par click kar ke <strong>Programs</strong> mein jayein, ya Desktop par Norton antivirus ke icon par, ya status bar ke Norton antivirus icon par click karein.</li>
+<li>Maujood options mein se apni zarurat ka chunein. <strong>Misaal:</strong> floppy scan karni ho to floppy option, C drive scan karni ho to C drive chunein.</li>
+<li>Ye scan karta hai aur agar infected files hon to kai options ke saath report karta hai.</li>
+<li>Options: <strong>1) Clean</strong> (virus saaf karna). <strong>2)</strong> Agar saaf na ho sake to <strong>Quarantine ya Delete</strong> karne ko kahega.</li>
+<li>Ab wo waqt hai jab aap ko vendor ki site se <strong>patches download</strong> kar ke install karne hain. Phir system ko dobara scan karein taa ke wo virus saaf ho jo pichli koshish mein saaf nahi hua tha.</li>
+<li>Agar ye bhi virus saaf karne mein madadgar na ho to behtar hai ke <strong>vendor ko report</strong> karein.</li>
+</ol>
+
+<div class="sum"><b>Khulasa</b><ol>
+<li>Patches <strong>manually ya automatically</strong> update kiye ja sakte hain.</li>
+<li>PC ko infection se bachane ke liye viruses ke <strong>scheduled scan</strong> zaroor apnayein.</li>
+</ol></div>
+</section>
+
+<!-- ================= PRACTICE ================= -->
+<div class="unit"><span class="n">?</span><small>Practice</small><h2>Quiz aur sawalat</h2><p>Pehle apni tayari ka quiz dein, phir kitab ke har chapter ke sawalat dekhein.</p></div>
+
+<section class="chap" id="quiz">
+<header><small>Self test</small><h3>15 sawal ka quiz</h3></header>
+<div id="quizBox"></div>
+<div class="score"><span>Score: <b id="qScore">0</b> / <span id="qTotal">15</span></span><button class="b ghost" id="qReset" type="button">Dobara shuru karein</button></div>
+</section>
+
+<section class="chap" id="bank">
+<header><small>Kitab ke sawalat</small><h3>Har chapter ke short aur long sawalat</h3></header>
+<p>Ye sawalat asal kitab ke aakhir se liye gaye hain. Jawab ke liye upar wala chapter dobara parhein.</p>
+
+<details><summary>Unit 1 · Chapter 1: Components</summary><div class="in"><div class="qs">
+<div><h5>Short</h5><ol><li>Computer kya hai?</li><li>Computers ki mukhtalif qismein batayein.</li><li>System components ke naam batayein.</li><li>Memory ki kitni qismein hain?</li><li>SMPS kya hai?</li><li>SMPS ko kis qism ka input diya jata hai?</li><li>ROM aur RAM mein kya farq hai?</li></ol></div>
+<div><h5>Essay</h5><ol><li>System components ki qismein batayein aur unhein mukhtasar samjhayein.</li><li>MODEM kya hai? Is ka istemal kya hai?</li><li>SMPS ke istemal par bahas karein.</li></ol></div>
+</div></div></details>
+<details><summary>Unit 1 · Chapter 2: Voltage napna</summary><div class="in"><div class="qs">
+<div><h5>Short</h5><ol><li>Multimeter kya hai?</li><li>Multimeter aur digital multimeter mein kya farq hai?</li><li>Back probing kya hai?</li><li>Power_Good signal kya hai?</li></ol></div>
+<div><h5>Essay</h5><ol><li>Voltage napne ke liye multimeter kaise istemal hota hai?</li></ol></div>
+</div></div></details>
+<details><summary>Unit 2 · Chapter 1: Motherboard</summary><div class="in"><div class="qs">
+<div><h5>Short</h5><ol><li>Motherboard kya hai?</li><li>Motherboard ke components ke naam batayein.</li><li>Cache memory kya hai?</li><li>Integrated motherboard kya hai?</li><li>Apne motherboard ka model aur manufacturer ka naam kaise pehchanein?</li></ol></div>
+<div><h5>Essay</h5><ol><li>Motherboard form factors ke bare mein mukhtasar likhein.</li><li>Motherboard ke components mukhtasar samjhayein.</li></ol></div>
+</div></div></details>
+<details><summary>Unit 2 · Chapter 2: Ports</summary><div class="in"><div class="qs">
+<div><h5>Short</h5><ol><li>Computer ke mukhtalif ports ke naam batayein.</li><li>Parallel port se jurne wali kuch devices ke naam batayein.</li><li>USB port kya hai?</li><li>Serial port kitni shakalon mein milta hai?</li><li>USB se zyada se zyada kitni devices jor sakte hain?</li><li>USB "A" aur USB "B" connector ka kya istemal hai?</li><li>ECP, EPP aur SPP ka poora naam likhein.</li></ol></div>
+<div><h5>Essay</h5><ol><li>Serial port kaise kaam karta hai, mukhtasar samjhayein.</li><li>Parallel port kaise kaam karta hai, mukhtasar samjhayein.</li><li>UART aur us ki zarurat par roshni dalein.</li></ol></div>
+</div></div></details>
+<details><summary>Unit 3 · Chapter 1: BIOS aur Booting</summary><div class="in"><div class="qs">
+<div><h5>Short</h5><ol><li>BIOS ka poora naam likhein.</li><li>Boot sequence kya hai?</li><li>BIOS banane wali kuch companies ke naam batayein.</li><li>BIOS ke mukhtalif components kya hain?</li><li>Bootstrap loader ki definition likhein aur is ke marahil batayein.</li></ol></div>
+<div><h5>Long</h5><ol><li>System ko boot karne ke mukhtalif steps bayan karein.</li></ol></div>
+</div></div></details>
+<details><summary>Unit 3 · Chapter 2: BIOS features aur configuration</summary><div class="in"><div class="qs">
+<div><h5>Short</h5><ol><li>CMOS setup kya hai?</li><li>BIOS ki kuch features ke naam batayein.</li><li>ADVANCED BIOS SETTINGS mein kaun si features hoti hain?</li></ol></div>
+<div><h5>Essay</h5><ol><li>System password aur CMOS password kaise set karte hain?</li><li>Kuch BIOS features ke naam batayein aur mukhtasar samjhayein.</li><li>BIOS kaise configure karte hain? CMOS ki kuch features batayein.</li></ol></div>
+</div></div></details>
+<details><summary>Unit 4 · Chapter 1: DOS aur Windows install</summary><div class="in"><div class="qs">
+<div><h5>Short</h5><ol><li>Operating system kya hai? Misalein dein.</li><li>DOS ka poora naam likhein.</li><li>System aur application software ki definition likhein.</li><li>DOS install karne ka tareeqa mukhtasar samjhayein.</li></ol></div>
+<div><h5>Long</h5><ol><li>Windows install karne ka tareeqa mukhtasar samjhayein.</li><li>Hard disk mein partitions banane ka tareeqa mukhtasar samjhayein.</li></ol></div>
+</div></div></details>
+<details><summary>Unit 4 · Chapter 2: Troubleshooting</summary><div class="in"><div class="qs">
+<div><h5>Short</h5><ol><li>POST ka poora naam likhein.</li><li>POST errors ki khabar kaise deta hai?</li><li>Troubleshooting kya hai?</li><li>Troubleshoot karne ke liye maujood software ki qismein likhein.</li><li>Troubleshoot karne ke liye third-party software ki misalein dein.</li></ol></div>
+<div><h5>Long</h5><ol><li>Operating system diagnostic software misalon ke saath mukhtasar samjhayein.</li></ol></div>
+</div></div></details>
+<details><summary>Unit 5 · Chapter 1: Viruses</summary><div class="in"><div class="qs">
+<div><h5>Short</h5><ol><li>Computer viruses kya hain? Mujhe un ki fikr kyun karni chahiye?</li><li>Computer mein virus kaise lagta hai?</li></ol></div>
+<div><h5>Long</h5><ol><li>Viruses ki qismein kya hain? Tafseel se samjhayein.</li><li>Virus infection ki alamaat aur nishaniyan kya hain?</li><li>Virus ko kaise pakarte aur rokte hain?</li></ol></div>
+</div></div></details>
+<details><summary>Unit 5 · Chapter 2: Norton install</summary><div class="in"><div class="qs">
+<div><h5>Short</h5><ol><li>Antivirus software ki definition likhein.</li><li>Maujood kuch antivirus softwares ke naam batayein.</li><li>Kya antivirus software infect ho sakta hai? Kyun?</li></ol></div>
+<div><h5>Long</h5><ol><li>Norton Antivirus ki installation mukhtasar samjhayein.</li></ol></div>
+</div></div></details>
+<details><summary>Unit 5 · Chapter 3: Patches aur recovery</summary><div class="in"><div class="qs">
+<div><h5>Short</h5><ol><li>Patches manually download karne ka tareeqa batayein.</li><li>Patches automatically download karne ka tareeqa batayein.</li></ol></div>
+<div><h5>Long</h5><ol><li>Computer se virus hatane ka tareeqa kya hai?</li></ol></div>
+</div></div></details>
+</section>
+
+<footer>
+<p><center><strong>Computer Hardware (Intermediate Vocational Course, 1st Year).</strong> Ye website D. Fatima ki likhi aur M. Venkat Das ki edit ki hui kitab (2005) ka Roman Urdu khulasa hai. Kitab mein diye gaye hardware, Windows 98, DOS aur Norton ke tafseelat us daur ke hain; aaj ke computers mein kuch cheezein (floppy, serial/parallel ports, Windows 98) ab aam nahi.</p>
+<p><strong>Develeop by:.</strong> Yasir Alee</center> </p>
+
+</footer>
+</main>
+
+<button class="totop" id="totop" aria-label="Upar jayein" type="button">&uarr;</button>
+
+<script>
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+
+  /* nav drawer */
+  var side=$('#side'),scrim=$('#scrim'),burger=$('#burger');
+  function drawer(on){side.classList.toggle('open',on);scrim.classList.toggle('on',on);burger.setAttribute('aria-expanded',on?'true':'false')}
+  burger.addEventListener('click',function(){drawer(!side.classList.contains('open'))});
+  scrim.addEventListener('click',function(){drawer(false)});
+  $$('.side a').forEach(function(a){a.addEventListener('click',function(){drawer(false)})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')drawer(false)});
+
+  /* progress, scrollspy, back to top */
+  var prog=$('#prog'),totop=$('#totop');
+  var spyIds=['top','u1c1','u1c2','u2c1','u2c2','u3c1','u3c2','u4c1','u4c2','u5c1','u5c2','u5c3','quiz','bank'];
+  var links={};$$('.side a.nl').forEach(function(a){links[a.getAttribute('href').slice(1)]=a});
+  function onScroll(){
+    var h=document.documentElement,max=h.scrollHeight-h.clientHeight;
+    prog.style.width=(max>0?Math.min(100,h.scrollTop/max*100):0)+'%';
+    totop.classList.toggle('on',h.scrollTop>900);
+    var cur='top';
+    spyIds.forEach(function(id){var el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<140)cur=id});
+    Object.keys(links).forEach(function(k){links[k].classList.toggle('on',k===cur)});
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  totop.addEventListener('click',function(){window.scrollTo({top:0})});
+
+  /* voltage tool (ranges from the book's tables) */
+  var R={'3.3':{loose:[2.97,3.63],tight:[3.135,3.465],n:'+3.3 V'},'5':{loose:[4.5,5.4],tight:[4.75,5.25],n:'5.0 V'},'12':{loose:[10.8,12.9],tight:[11.4,12.6],n:'12.0 V'},'pg':{loose:[3,6],tight:[3,6],n:'Power_Good'}};
+  function volt(){
+    var r=R[$('#vRail').value],t=$('#vTol').value,v=parseFloat($('#vRead').value),o=$('#vOut'),rg=r[t];
+    if(isNaN(v)){o.className='out';o.textContent='Meter ki reading likhein.';return}
+    var txt=r.n+' ke liye range: '+rg[0]+' V se '+rg[1]+' V.';
+    if(v>=rg[0]&&v<=rg[1]){o.className='out ok';o.innerHTML='<strong>Theek hai.</strong> '+v+' V range ke andar hai. '+txt}
+    else{o.className='out no';o.innerHTML='<strong>Range se bahar.</strong> '+v+' V '+(v<rg[0]?'bohat kam':'bohat zyada')+' hai. '+txt+' Power supply load ke saath napi gayi ho to usay badalna parega.'}
+  }
+  ['vRail','vTol','vRead'].forEach(function(i){$('#'+i).addEventListener('input',volt)});volt();
+
+  /* bus width */
+  var W=[8,16,32,64],pipe=$('#busPipe'),cells=[];
+  for(var i=0;i<32;i++){var c=document.createElement('i');pipe.appendChild(c);cells.push(c)}
+  function bus(){
+    var w=W[+$('#busR').value],t=64/w;
+    $('#busW').textContent=w;$('#busN').textContent=t;
+    cells.forEach(function(c,k){c.className=k<w/2?'on':''});
+    $('#busT').textContent='64 bit data '+w+' bit ki bus par: 64 ÷ '+w+' = '+t+(t===1?' transfer (ek hi baar mein).':' transfers.');
+  }
+  $('#busR').addEventListener('input',bus);bus();
+
+  /* unit converter */
+  function units(){
+    var v=parseFloat($('#uVal').value),f=parseFloat($('#uFrom').value),o=$('#uOut');
+    if(isNaN(v)||v<0){o.textContent='Sahi qeemat likhein.';return}
+    var b=v*f,fmt=function(n){return n.toLocaleString('en-US',{maximumFractionDigits:6})};
+    o.innerHTML='<table style="min-width:0;font-size:.92rem"><tr><td>Bits</td><td class="num">'+fmt(b*8)+'</td></tr><tr><td>Bytes</td><td class="num">'+fmt(b)+'</td></tr><tr><td>KB</td><td class="num">'+fmt(b/1024)+'</td></tr><tr><td>MB</td><td class="num">'+fmt(b/1048576)+'</td></tr><tr><td>GB</td><td class="num">'+fmt(b/1073741824)+'</td></tr></table>';
+  }
+  ['uVal','uFrom'].forEach(function(i){$('#'+i).addEventListener('input',units)});units();
+
+  /* boot stepper */
+  var bb=$$('#boot button');
+  bb.forEach(function(b){b.addEventListener('click',function(){bb.forEach(function(x){x.classList.remove('on')});b.classList.add('on')})});
+
+  /* quiz */
+  var Q=[
+   ['Computer system kin teen cheezon se banta hai?',['Hardware, Software, People','CPU, RAM, ROM','Monitor, Mouse, Keyboard','DOS, Windows, Linux'],0,'Kitab ke mutabiq: Hardware, Software aur People.'],
+   ['RAM ke bare mein kaun sa bayan sahi hai?',['Non-volatile hai','Bijli band hone par data mit jata hai','Sirf manufacturer likhta hai','Sirf OS rakhti hai'],1,'RAM volatile hai; ROM non-volatile hai.'],
+   ['SMPS ka asal kaam kya hai?',['DC ko AC banana','230 V AC ko 3.3, 5 aur 12 V DC mein badalna','Data store karna','Display chalana'],1,'SMPS (Switch Mode Power Supply) AC ko zaroori DC voltages mein badalta hai.'],
+   ['Power_Good pin par normal range kya hai?',['0 V se 1 V','+3 V se +6 V','10 V se 12 V','-3 V se -25 V'],1,'Ye range bahar ho to system start nahi hota; aksar power supply kharab hoti hai.'],
+   ['Chalte system ki voltage connector ke peeche se napne ko kya kehte hain?',['Back probing','Cross probing','Load testing','Reset'],0,'Meter ki lead taar ke bagal se andar jati hai.'],
+   ['ATX motherboard ki standard size kitni hai?',['9 × 10 in','12 × 9.6 in','8.8 × 13 in','12 × 12 in'],1,'ATX 12 × 9.6 in; Baby-AT 9 × 10 in; NLX 8.8 × 13 in.'],
+   ['64 bit data 16 bit bus par kitne transfers mein jata hai?',['2','4','8','16'],1,'64 ÷ 16 = 4 transfers.'],
+   ['USB se zyada se zyada kitni devices jur sakti hain?',['2','16','127','255'],2,'USB 127 devices tak support karta hai.'],
+   ['USB "A" connector kis taraf jata hai?',['Device ki taraf (downstream)','Computer ki taraf (upstream)','Sirf printer','Sirf mouse'],1,'"A" upstream (computer), "B" downstream (device).'],
+   ['BIOS ka poora naam kya hai?',['Basic Input Output System','Binary Input Output Setup','Base Internal Operating System','Basic Internet Online Service'],0,'BIOS = Basic Input Output System.'],
+   ['Sab se pehle boot par kaun sa test chalta hai?',['FDISK','POST','LiveUpdate','Format'],1,'POST (Power-On Self Test) hardware check karta hai.'],
+   ['Naye hard disk par OS se pehle kaun se do commands chalte hain?',['DIR aur COPY','FDISK aur FORMAT','PING aur TRACE','SETUP aur SCAN'],1,'Pehle partition (FDISK) phir format.'],
+   ['Wo virus jo files ko infect nahi karta, sirf tezi se phailta hai?',['Logic bomb','Worm','Polymorphic','Macro'],1,'Worm ka maqsad sirf aage phailna hai.'],
+   ['Wo virus jo har infection ke saath apni shakal badalta hai?',['Polymorphic','Worm','Trojan','Logic bomb'],0,'Polymorphic viruses antivirus se bachne ke liye khud ko badalte rehte hain.'],
+   ['Antivirus ko update rakhna kyun zaroori hai?',['Taa ke screen saaf rahe','Kyunke naye viruses musalsal aate hain','Taa ke RAM barh jaye','Taa ke Windows band ho'],1,'Har mahine 500 se zyada naye viruses dariyaft hote hain (kitab ke mutabiq).']
+  ];
+  var box=$('#quizBox'),score=0,answered=0;
+  $('#qTotal').textContent=Q.length;
+  function build(){
+    box.innerHTML='';score=0;answered=0;$('#qScore').textContent=0;
+    Q.forEach(function(q,i){
+      var d=document.createElement('div');d.className='qz';
+      var h=document.createElement('h5');h.textContent=(i+1)+'. '+q[0];d.appendChild(h);
+      var o=document.createElement('div');o.className='opts';
+      q[1].forEach(function(t,k){
+        var b=document.createElement('button');b.type='button';b.textContent=t;
+        b.addEventListener('click',function(){
+          if(d.classList.contains('done'))return;
+          d.classList.add('done');answered++;
+          var bs=$$('button',o);
+          if(k===q[2]){b.classList.add('right');score++}else{b.classList.add('wrong');bs[q[2]].classList.add('right')}
+          $('#qScore').textContent=score;
+        });
+        o.appendChild(b);
+      });
+      d.appendChild(o);
+      var f=document.createElement('div');f.className='fb';f.textContent=q[3];d.appendChild(f);
+      box.appendChild(d);
+    });
+  }
+  build();
+  $('#qReset').addEventListener('click',function(){build();box.scrollIntoView({block:'start'})});
+})();
+</script>
+
+</body></html>
