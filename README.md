@@ -33,7 +33,7 @@
 
 > *Apni website ka screenshot yahan lagayein:*
 
-![App Screenshot](https://raw.githubusercontent.com/your-username/your-repo-name/main/screenshot.png)
+![App Screenshot](CM,png)
 
 ---
 
