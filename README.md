@@ -32,9 +32,10 @@
 
 ## 📸 Preview
 
-> *Apni website ka screenshot yahan lagayein:*
+> 
 
 <img src="CM.png">
+<img src="cm1.png">
 
 ---
 
