@@ -13,9 +13,9 @@
 
 ## 🚀 Key Features
 
-* 📱 **About:** Computer Hardware
-* ⚡ **Language:** Easy Roman Urdu
-* 🎨 **Theme:** Dark Green, Black & White
+*  **About:** Computer Hardware
+*  **Language:** Easy Roman Urdu
+*  **Theme:** Dark Green, Black & White
 
 ---
 
