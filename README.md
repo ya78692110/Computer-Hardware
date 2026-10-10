@@ -1,3 +1,4 @@
+<img width="1129" height="606" alt="CM" src="https://github.com/user-attachments/assets/aecc6c23-29b8-4865-abbe-c17e8e30151d" />
 <div align="center">
 
   <h1>Computer Hardware</h1>
@@ -33,7 +34,7 @@
 
 > *Apni website ka screenshot yahan lagayein:*
 
-![App Screenshot(CM,png)]
+<img src="CM.png">
 
 ---
 
