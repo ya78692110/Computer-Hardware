@@ -4,7 +4,7 @@
   <h1>Computer Hardware</h1>
   <p><b>Easy In Roman Urdu Language</b></p>
 
-  [<a href="https://your-username.github.io/your-repo-name/](https://ya78692110.github.io/Computer-Hardware/"><strong>🌐 Live Demo View »</strong></a>](https://ya78692110.github.io/Computer-Hardware/)
+  https://ya78692110.github.io/Computer-Hardware/
 
 </div>
 
